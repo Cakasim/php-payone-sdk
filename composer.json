@@ -26,7 +26,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.1",
-        "psr/http-message": "^1.0"
+        "psr/http-message": "^1.0",
+        "psr/http-client": "^1.0"
     },
     "autoload": {
         "Cakasim\\Payone\\Sdk\\": "src/"
