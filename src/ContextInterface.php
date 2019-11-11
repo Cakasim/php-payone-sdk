@@ -25,4 +25,11 @@ interface ContextInterface
      * @return Http\Service The HTTP service.
      */
     public function getHttpService(): Http\Service;
+
+    /**
+     * Returns the API service of the SDK.
+     *
+     * @return Api\Service The API service.
+     */
+    public function getApiService(): Api\Service;
 }
