@@ -12,4 +12,10 @@ namespace Cakasim\Payone\Sdk;
  */
 interface ContextInterface
 {
+    /**
+     * Returns the log service of the SDK.
+     *
+     * @return Log\Service The Log service.
+     */
+    public function getLogService(): Log\Service;
 }

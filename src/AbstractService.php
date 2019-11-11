@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * The base class for various SDK services.
  *
