@@ -18,4 +18,11 @@ interface ContextInterface
      * @return Log\Service The Log service.
      */
     public function getLogService(): Log\Service;
+
+    /**
+     * Returns the HTTP service of the SDK.
+     *
+     * @return Http\Service The HTTP service.
+     */
+    public function getHttpService(): Http\Service;
 }
