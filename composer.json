@@ -36,5 +36,8 @@
     },
     "suggest": {
         "ext-curl": "Required in order to use the cURL HTTP driver."
+    },
+    "require-dev": {
+        "slim/psr7": "^0.6.0"
     }
 }
