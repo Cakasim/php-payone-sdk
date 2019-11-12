@@ -32,7 +32,9 @@
         "psr/log": "^1.1"
     },
     "autoload": {
-        "Cakasim\\Payone\\Sdk\\": "src/"
+        "psr-4": {
+            "Cakasim\\Payone\\Sdk\\": "src/"
+        }
     },
     "suggest": {
         "ext-curl": "Required in order to use the cURL HTTP driver."
