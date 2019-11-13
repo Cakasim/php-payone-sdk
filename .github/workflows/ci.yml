@@ -1,0 +1,32 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        php: ['7.2', '7.3', '7.4']
+
+    name: ${{ matrix.os }} with PHP ${{ matrix.php }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
+          extension-csv: mbstring, xdebug
+
+      - name: Download PHPUnit
+        run: |
+          wget -O phpunit --no-verbose https://phar.phpunit.de/phpunit-8.phar
+          chmod +x phpunit
+          ./phpunit --version
+
+      - name: Composer Install
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Tests
+        run: ./phpunit --bootstrap vendor/autoload.php --testdox tests/
