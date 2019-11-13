@@ -9,6 +9,7 @@ use Cakasim\Payone\Sdk\ContextInterface;
 use Cakasim\Payone\Sdk\Http\Factory\ClientFactoryInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * The HTTP service.
@@ -29,6 +30,11 @@ class Service extends AbstractService
     protected $responseFactory;
 
     /**
+     * @var StreamFactoryInterface The PSR-17 stream factory instance.
+     */
+    protected $streamFactory;
+
+    /**
      * @var ClientFactoryInterface The client factory instance which is capable of generating PSR-18 client instances.
      */
     protected $clientFactory;
@@ -38,6 +44,7 @@ class Service extends AbstractService
      *
      * @param RequestFactoryInterface $requestFactory The request factory instance.
      * @param ResponseFactoryInterface $responseFactory The response factory instance.
+     * @param StreamFactoryInterface $streamFactory The stream factory instance.
      * @param ClientFactoryInterface $clientFactory The client factory instance.
      * @inheritDoc
      */
@@ -45,12 +52,14 @@ class Service extends AbstractService
         ContextInterface $context,
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
+        StreamFactoryInterface $streamFactory,
         ClientFactoryInterface $clientFactory
     )
     {
         parent::__construct($context);
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
+        $this->streamFactory = $streamFactory;
         $this->clientFactory = $clientFactory;
     }
 
@@ -72,6 +81,16 @@ class Service extends AbstractService
     public function getResponseFactory(): ResponseFactoryInterface
     {
         return $this->responseFactory;
+    }
+
+    /**
+     * Returns the PSR-17 stream factory.
+     *
+     * @return StreamFactoryInterface The stream factory instance.
+     */
+    public function getStreamFactory(): StreamFactoryInterface
+    {
+        return $this->streamFactory;
     }
 
     /**
