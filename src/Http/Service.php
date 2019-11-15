@@ -54,8 +54,7 @@ class Service extends AbstractService
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         ClientFactoryInterface $clientFactory
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
