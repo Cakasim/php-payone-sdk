@@ -36,6 +36,11 @@
             "Cakasim\\Payone\\Sdk\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Cakasim\\Payone\\Sdk\\Tests\\": "tests/"
+        }
+    },
     "suggest": {
         "ext-curl": "Required in order to use the cURL HTTP driver."
     },
