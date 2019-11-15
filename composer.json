@@ -49,7 +49,7 @@
     },
     "scripts": {
         "cakasim:download-phpdoc": "curl https://phpdoc.org/phpDocumentor.phar --output phpdoc",
-        "cakasim:download-phpcsf": "curl https://cs.symfony.com/download/php-cs-fixer-v2.phar --output phpcs"
+        "cakasim:download-phpcsf": "curl https://cs.symfony.com/download/php-cs-fixer-v2.phar --output phpcsf"
     },
     "scripts-descriptions": {
         "cakasim:download-phpdoc": "Downloads latest phpDocumentor PHAR and saves it as phpdoc.",
