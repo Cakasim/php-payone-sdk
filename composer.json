@@ -41,5 +41,13 @@
     },
     "require-dev": {
         "slim/psr7": "^0.6.0"
+    },
+    "scripts": {
+        "cakasim:download-phpdoc": "curl https://phpdoc.org/phpDocumentor.phar --output phpdoc",
+        "cakasim:download-phpcsf": "curl https://cs.symfony.com/download/php-cs-fixer-v2.phar --output phpcs"
+    },
+    "scripts-descriptions": {
+        "cakasim:download-phpdoc": "Downloads latest phpDocumentor PHAR and saves it as phpdoc.",
+        "cakasim:download-phpcsf": "Downloads latest PHP Coding Standards Fixer and saves it as phpcsf."
     }
 }
