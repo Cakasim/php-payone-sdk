@@ -1,3 +1,5 @@
 vendor/
 phpdoc
 phpcsf
+phpunit
+.phpunit.result.cache

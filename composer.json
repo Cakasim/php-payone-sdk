@@ -49,10 +49,12 @@
     },
     "scripts": {
         "cakasim:download-phpdoc": "curl https://phpdoc.org/phpDocumentor.phar --output phpdoc",
-        "cakasim:download-phpcsf": "curl https://cs.symfony.com/download/php-cs-fixer-v2.phar --output phpcsf"
+        "cakasim:download-phpcsf": "curl https://cs.symfony.com/download/php-cs-fixer-v2.phar --output phpcsf",
+        "cakasim:download-phpunit": "curl -L https://phar.phpunit.de/phpunit-8.phar --output phpunit"
     },
     "scripts-descriptions": {
         "cakasim:download-phpdoc": "Downloads latest phpDocumentor PHAR and saves it as phpdoc.",
-        "cakasim:download-phpcsf": "Downloads latest PHP Coding Standards Fixer and saves it as phpcsf."
+        "cakasim:download-phpcsf": "Downloads latest PHP Coding Standards Fixer and saves it as phpcsf.",
+        "cakasim:download-phpunit": "Downloads latest PHPUnit 8 and saves it as phpunit."
     }
 }
