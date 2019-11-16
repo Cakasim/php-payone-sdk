@@ -293,10 +293,10 @@ class Uri implements UriInterface
     /**
      * Sets the port of the authority part.
      *
-     * @param int $port The port number.
+     * @param int|null $port The port number.
      * @return self
      */
-    protected function setPort(int $port): self
+    protected function setPort(?int $port): self
     {
         $this->port = $port;
         return $this;
