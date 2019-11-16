@@ -26,6 +26,11 @@ class Service extends AbstractService
     protected $uriFactory;
 
     /**
+     * @var StreamFactoryInterface The PSR-17 stream factory instance.
+     */
+    protected $streamFactory;
+
+    /**
      * @var RequestFactoryInterface The PSR-17 request factory instance.
      */
     protected $requestFactory;
@@ -34,11 +39,6 @@ class Service extends AbstractService
      * @var ResponseFactoryInterface The PSR-17 response factory instance.
      */
     protected $responseFactory;
-
-    /**
-     * @var StreamFactoryInterface The PSR-17 stream factory instance.
-     */
-    protected $streamFactory;
 
     /**
      * @var ClientFactoryInterface The client factory instance which is capable of generating PSR-18 client instances.
@@ -57,16 +57,16 @@ class Service extends AbstractService
     public function __construct(
         ContextInterface $context,
         UriFactoryInterface $uriFactory,
+        StreamFactoryInterface $streamFactory,
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
-        StreamFactoryInterface $streamFactory,
         ClientFactoryInterface $clientFactory
     ) {
         parent::__construct($context);
         $this->uriFactory = $uriFactory;
+        $this->streamFactory = $streamFactory;
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
-        $this->streamFactory = $streamFactory;
         $this->clientFactory = $clientFactory;
     }
 
@@ -78,6 +78,16 @@ class Service extends AbstractService
     public function getUriFactory(): UriFactoryInterface
     {
         return $this->uriFactory;
+    }
+
+    /**
+     * Returns the PSR-17 stream factory.
+     *
+     * @return StreamFactoryInterface The stream factory instance.
+     */
+    public function getStreamFactory(): StreamFactoryInterface
+    {
+        return $this->streamFactory;
     }
 
     /**
@@ -98,16 +108,6 @@ class Service extends AbstractService
     public function getResponseFactory(): ResponseFactoryInterface
     {
         return $this->responseFactory;
-    }
-
-    /**
-     * Returns the PSR-17 stream factory.
-     *
-     * @return StreamFactoryInterface The stream factory instance.
-     */
-    public function getStreamFactory(): StreamFactoryInterface
-    {
-        return $this->streamFactory;
     }
 
     /**
