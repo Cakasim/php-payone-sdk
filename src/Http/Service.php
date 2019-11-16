@@ -10,6 +10,7 @@ use Cakasim\Payone\Sdk\Http\Factory\ClientFactoryInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 
 /**
  * The HTTP service.
@@ -19,6 +20,11 @@ use Psr\Http\Message\StreamFactoryInterface;
  */
 class Service extends AbstractService
 {
+    /**
+     * @var UriFactoryInterface The PSR-17 URI factory instance.
+     */
+    protected $uriFactory;
+
     /**
      * @var RequestFactoryInterface The PSR-17 request factory instance.
      */
@@ -50,16 +56,28 @@ class Service extends AbstractService
      */
     public function __construct(
         ContextInterface $context,
+        UriFactoryInterface $uriFactory,
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         ClientFactoryInterface $clientFactory
     ) {
         parent::__construct($context);
+        $this->uriFactory = $uriFactory;
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->clientFactory = $clientFactory;
+    }
+
+    /**
+     * Returns the PSR-17 URI factory.
+     *
+     * @return UriFactoryInterface The request factory instance.
+     */
+    public function getUriFactory(): UriFactoryInterface
+    {
+        return $this->uriFactory;
     }
 
     /**
