@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk\Http;
 
 use Cakasim\Payone\Sdk\AbstractService;
-use Cakasim\Payone\Sdk\ContextInterface;
 use Cakasim\Payone\Sdk\Http\Factory\ClientFactoryInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -55,14 +55,14 @@ class Service extends AbstractService
      * @inheritDoc
      */
     public function __construct(
-        ContextInterface $context,
+        ContainerInterface $container,
         UriFactoryInterface $uriFactory,
         StreamFactoryInterface $streamFactory,
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
         ClientFactoryInterface $clientFactory
     ) {
-        parent::__construct($context);
+        parent::__construct($container);
         $this->uriFactory = $uriFactory;
         $this->streamFactory = $streamFactory;
         $this->requestFactory = $requestFactory;

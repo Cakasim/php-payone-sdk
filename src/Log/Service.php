@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk\Log;
 
 use Cakasim\Payone\Sdk\AbstractService;
-use Cakasim\Payone\Sdk\ContextInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,9 +27,9 @@ class Service extends AbstractService
      * @param LoggerInterface $logger The logger which should be used by the SDK.
      * @inheritDoc
      */
-    public function __construct(ContextInterface $context, LoggerInterface $logger)
+    public function __construct(ContainerInterface $container, LoggerInterface $logger)
     {
-        parent::__construct($context);
+        parent::__construct($container);
         $this->logger = $logger;
     }
 

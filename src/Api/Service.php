@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk\Api;
 
 use Cakasim\Payone\Sdk\AbstractService;
-use Cakasim\Payone\Sdk\ContextInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * The API service.
@@ -20,8 +20,8 @@ class Service extends AbstractService
      *
      * @inheritDoc
      */
-    public function __construct(ContextInterface $context)
+    public function __construct(ContainerInterface $container)
     {
-        parent::__construct($context);
+        parent::__construct($container);
     }
 }

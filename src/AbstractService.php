@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk;
 
-use Psr\Log\LoggerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * The base class for various SDK services.
@@ -15,17 +15,17 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractService
 {
     /**
-     * @var ContextInterface The SDK context.
+     * @var ContainerInterface The SDK service container.
      */
-    protected $context;
+    protected $container;
 
     /**
-     * Constructs the service with the SDK context.
+     * Constructs the service with the SDK service container.
      *
-     * @param ContextInterface $context The SDK context instance.
+     * @param ContainerInterface $container The SDK service container.
      */
-    public function __construct(ContextInterface $context)
+    public function __construct(ContainerInterface $container)
     {
-        $this->context = $context;
+        $this->container = $container;
     }
 }
