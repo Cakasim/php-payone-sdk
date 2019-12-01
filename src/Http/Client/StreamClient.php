@@ -28,7 +28,7 @@ class StreamClient extends AbstractClient
         // Read basic request parameters.
         $method = $request->getMethod();
         $uri = (string) $request->getUri();
-        $body = $request->getBody()->getContents();
+        $body = (string) $request->getBody();
         $headers = [];
 
         // Populate headers array.
