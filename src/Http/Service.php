@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk\Http;
 
 use Cakasim\Payone\Sdk\AbstractService;
-use Cakasim\Payone\Sdk\Http\Factory\ClientFactoryInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -41,9 +41,9 @@ class Service extends AbstractService
     protected $responseFactory;
 
     /**
-     * @var ClientFactoryInterface The client factory instance which is capable of generating PSR-18 client instances.
+     * @var ClientInterface The HTTP client instance.
      */
-    protected $clientFactory;
+    protected $client;
 
     /**
      * Constructs the HTTP service with required factories.
@@ -51,7 +51,7 @@ class Service extends AbstractService
      * @param RequestFactoryInterface $requestFactory The request factory instance.
      * @param ResponseFactoryInterface $responseFactory The response factory instance.
      * @param StreamFactoryInterface $streamFactory The stream factory instance.
-     * @param ClientFactoryInterface $clientFactory The client factory instance.
+     * @param ClientInterface $clientFactory The HTTP client instance.
      * @inheritDoc
      */
     public function __construct(
@@ -60,14 +60,14 @@ class Service extends AbstractService
         StreamFactoryInterface $streamFactory,
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
-        ClientFactoryInterface $clientFactory
+        ClientInterface $client
     ) {
         parent::__construct($container);
         $this->uriFactory = $uriFactory;
         $this->streamFactory = $streamFactory;
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
-        $this->clientFactory = $clientFactory;
+        $this->client = $client;
     }
 
     /**
@@ -111,12 +111,12 @@ class Service extends AbstractService
     }
 
     /**
-     * Returns the client factory.
+     * Returns the HTTP client.
      *
-     * @return ClientFactoryInterface The client factory instance.
+     * @return ClientInterface The HTTP client instance.
      */
-    public function getClientFactory(): ClientFactoryInterface
+    public function getClient(): ClientInterface
     {
-        return $this->clientFactory;
+        return $this->client;
     }
 }
