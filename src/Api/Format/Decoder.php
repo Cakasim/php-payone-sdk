@@ -17,9 +17,21 @@ class Decoder implements DecoderInterface
      */
     public function decode(string $data): array
     {
-        // Replace newlines with & in order to
-        // use parse_str() for parsing.
-        $data = preg_replace('/\r?\n/i', '&', $data);
+        // Split data by line breaks.
+        $data = preg_split('/\r?\n/i', $data);
+
+        // Split each line by param-value-separator and encode the value component.
+        $lines = [];
+        foreach ($data as $line) {
+            $line = trim($line);
+            if (strpos($line, '=') > 0) {
+                $line = explode('=', $line, 2);
+                $lines[] = "{$line[0]}=" . rawurlencode($line[1]);
+            }
+        }
+
+        // Join the lines in order to use parse_str().
+        $data = join('&', $lines);
 
         $result = [];
         parse_str($data, $result);
