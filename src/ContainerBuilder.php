@@ -52,6 +52,9 @@ class ContainerBuilder
 
         // --- SDK Bindings ---
 
+        // Config
+        \Cakasim\Payone\Sdk\Config\ConfigInterface::class => [ \Cakasim\Payone\Sdk\Config\Config::class, true ],
+
         // API Format
         \Cakasim\Payone\Sdk\Api\Format\EncoderInterface::class => [ \Cakasim\Payone\Sdk\Api\Format\Encoder::class, true ],
         \Cakasim\Payone\Sdk\Api\Format\DecoderInterface::class => [ \Cakasim\Payone\Sdk\Api\Format\Decoder::class, true ],
