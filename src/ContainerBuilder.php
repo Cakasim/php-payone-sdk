@@ -58,6 +58,9 @@ class ContainerBuilder
         // API Format
         \Cakasim\Payone\Sdk\Api\Format\EncoderInterface::class => [ \Cakasim\Payone\Sdk\Api\Format\Encoder::class, true ],
         \Cakasim\Payone\Sdk\Api\Format\DecoderInterface::class => [ \Cakasim\Payone\Sdk\Api\Format\Decoder::class, true ],
+
+        // API Client
+        \Cakasim\Payone\Sdk\Api\Client\ClientInterface::class => [ \Cakasim\Payone\Sdk\Api\Client\Client::class, true ],
     ];
 
     /**
