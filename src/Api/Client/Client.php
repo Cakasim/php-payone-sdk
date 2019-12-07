@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Client;
 
+use Cakasim\Payone\Sdk\Api\Format\DecoderExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Format\DecoderInterface;
+use Cakasim\Payone\Sdk\Api\Format\EncoderExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Format\EncoderInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
@@ -72,7 +74,6 @@ class Client implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws ClientException If sending fails.
      */
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void
     {

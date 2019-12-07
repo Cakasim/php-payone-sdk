@@ -21,6 +21,7 @@ interface ClientInterface
      *
      * @param RequestInterface $request The request message to send.
      * @param ResponseInterface $response The response message to populate with the API response.
+     * @throws ClientExceptionInterface If sending fails.
      */
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void;
 }
