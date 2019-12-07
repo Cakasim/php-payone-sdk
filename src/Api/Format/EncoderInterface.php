@@ -17,6 +17,7 @@ interface EncoderInterface
      *
      * @param array $data The data to decode.
      * @return string The string encoded data.
+     * @throws EncoderExceptionInterface If encoding fails.
      */
     public function encode(array $data): string;
 }

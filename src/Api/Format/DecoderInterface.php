@@ -17,6 +17,7 @@ interface DecoderInterface
      *
      * @param string $data The string data to decode.
      * @return array The data as array.
+     * @throws DecoderExceptionInterface If decoding fails.
      */
     public function decode(string $data): array;
 }

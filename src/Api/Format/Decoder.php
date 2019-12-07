@@ -20,6 +20,10 @@ class Decoder implements DecoderInterface
         // Split data by line breaks.
         $data = preg_split('/\r?\n/i', $data);
 
+        if (!is_array($data)) {
+            throw new DecoderException("Failed decoding of data.");
+        }
+
         // Split each line by param-value-separator and encode the value component.
         $lines = [];
         foreach ($data as $line) {
