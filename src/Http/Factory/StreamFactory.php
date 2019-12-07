@@ -44,7 +44,7 @@ class StreamFactory implements StreamFactoryInterface
     {
         // Register temporary error handler to catch fopen warnings.
         $err = [];
-        set_error_handler(function (int $code, string $message) use (&$err) {
+        set_error_handler(function (int $code, string $message) use (&$err): void {
             $err['code'] = $code;
             $err['message'] = $message;
         });

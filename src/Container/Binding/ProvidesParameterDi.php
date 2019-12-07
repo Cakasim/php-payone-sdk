@@ -6,7 +6,6 @@ namespace Cakasim\Payone\Sdk\Container\Binding;
 
 use Cakasim\Payone\Sdk\Container\Container;
 use Cakasim\Payone\Sdk\Container\ContainerException;
-use Psr\Container\ContainerInterface;
 use ReflectionParameter;
 
 /**

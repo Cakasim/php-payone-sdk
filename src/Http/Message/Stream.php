@@ -91,7 +91,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function close()
+    public function close(): void
     {
         // Attempt to close the valid stream.
         if ($this->isValid()) {
@@ -164,7 +164,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function seek($offset, $whence = SEEK_SET)
+    public function seek($offset, $whence = SEEK_SET): void
     {
         if (!$this->isSeekable()) {
             throw new \RuntimeException('The stream is not seekable.');
@@ -178,7 +178,7 @@ class Stream implements StreamInterface
     /**
      * @inheritDoc
      */
-    public function rewind()
+    public function rewind(): void
     {
         if (!$this->isSeekable() || !rewind($this->stream)) {
             throw new RuntimeException('Failed to rewind stream.');
@@ -287,8 +287,7 @@ class Stream implements StreamInterface
         try {
             $this->rewind();
             return $this->getContents();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // Do not raise any exceptions!
             return '';
         }

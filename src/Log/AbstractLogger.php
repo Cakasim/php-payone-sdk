@@ -18,7 +18,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function emergency($message, array $context = [])
+    public function emergency($message, array $context = []): void
     {
         $this->log(LogLevel::EMERGENCY, $message, $context);
     }
@@ -26,7 +26,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function alert($message, array $context = [])
+    public function alert($message, array $context = []): void
     {
         $this->log(LogLevel::ALERT, $message, $context);
     }
@@ -34,7 +34,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function critical($message, array $context = [])
+    public function critical($message, array $context = []): void
     {
         $this->log(LogLevel::CRITICAL, $message, $context);
     }
@@ -42,7 +42,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function error($message, array $context = [])
+    public function error($message, array $context = []): void
     {
         $this->log(LogLevel::ERROR, $message, $context);
     }
@@ -50,7 +50,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function warning($message, array $context = [])
+    public function warning($message, array $context = []): void
     {
         $this->log(LogLevel::WARNING, $message, $context);
     }
@@ -58,7 +58,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function notice($message, array $context = [])
+    public function notice($message, array $context = []): void
     {
         $this->log(LogLevel::NOTICE, $message, $context);
     }
@@ -66,7 +66,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function info($message, array $context = [])
+    public function info($message, array $context = []): void
     {
         $this->log(LogLevel::INFO, $message, $context);
     }
@@ -74,7 +74,7 @@ abstract class AbstractLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function debug($message, array $context = [])
+    public function debug($message, array $context = []): void
     {
         $this->log(LogLevel::DEBUG, $message, $context);
     }

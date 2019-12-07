@@ -51,7 +51,7 @@ class Service extends AbstractService
      * @param RequestFactoryInterface $requestFactory The request factory instance.
      * @param ResponseFactoryInterface $responseFactory The response factory instance.
      * @param StreamFactoryInterface $streamFactory The stream factory instance.
-     * @param ClientInterface $clientFactory The HTTP client instance.
+     * @param ClientInterface $client The HTTP client instance.
      * @inheritDoc
      */
     public function __construct(

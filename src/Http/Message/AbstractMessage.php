@@ -181,9 +181,11 @@ abstract class AbstractMessage implements MessageInterface
      */
     public function withHeader($name, $value)
     {
-        return (clone $this)->setHeader($name, is_array($value)
-            ? $value
-            : [$value]
+        return (clone $this)->setHeader(
+            $name,
+            is_array($value)
+                ? $value
+                : [$value]
         );
     }
 
@@ -192,9 +194,11 @@ abstract class AbstractMessage implements MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
-        return (clone $this)->addHeader($name, is_array($value)
-            ? $value
-            : [$value]
+        return (clone $this)->addHeader(
+            $name,
+            is_array($value)
+                ? $value
+                : [$value]
         );
     }
 

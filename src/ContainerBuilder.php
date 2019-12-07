@@ -32,7 +32,7 @@ class ContainerBuilder
         // --- PSR Bindings ---
 
         // PSR-3
-        \Psr\Log\LoggerInterface::class => [ \Cakasim\Payone\Sdk\Log\SilentLogger::class, true ],
+        \Psr\Log\LoggerInterface::class => [\Cakasim\Payone\Sdk\Log\SilentLogger::class, true],
 
         // PSR-7
         // Concrete PSR-7 implementation is provided by PSR-17
@@ -42,25 +42,25 @@ class ContainerBuilder
         // Container binds itself within the container constructor.
 
         // PSR-17
-        \Psr\Http\Message\UriFactoryInterface::class      => [ \Cakasim\Payone\Sdk\Http\Factory\UriFactory::class, true ],
-        \Psr\Http\Message\StreamFactoryInterface::class   => [ \Cakasim\Payone\Sdk\Http\Factory\StreamFactory::class, true ],
-        \Psr\Http\Message\RequestFactoryInterface::class  => [ \Cakasim\Payone\Sdk\Http\Factory\RequestFactory::class, true ],
-        \Psr\Http\Message\ResponseFactoryInterface::class => [ \Cakasim\Payone\Sdk\Http\Factory\ResponseFactory::class, true ],
+        \Psr\Http\Message\UriFactoryInterface::class      => [\Cakasim\Payone\Sdk\Http\Factory\UriFactory::class, true],
+        \Psr\Http\Message\StreamFactoryInterface::class   => [\Cakasim\Payone\Sdk\Http\Factory\StreamFactory::class, true],
+        \Psr\Http\Message\RequestFactoryInterface::class  => [\Cakasim\Payone\Sdk\Http\Factory\RequestFactory::class, true],
+        \Psr\Http\Message\ResponseFactoryInterface::class => [\Cakasim\Payone\Sdk\Http\Factory\ResponseFactory::class, true],
 
         // PSR-18
-        \Psr\Http\Client\ClientInterface::class => [ \Cakasim\Payone\Sdk\Http\Client\StreamClient::class, true ],
+        \Psr\Http\Client\ClientInterface::class => [\Cakasim\Payone\Sdk\Http\Client\StreamClient::class, true],
 
         // --- SDK Bindings ---
 
         // Config
-        \Cakasim\Payone\Sdk\Config\ConfigInterface::class => [ \Cakasim\Payone\Sdk\Config\Config::class, true ],
+        \Cakasim\Payone\Sdk\Config\ConfigInterface::class => [\Cakasim\Payone\Sdk\Config\Config::class, true],
 
         // API Format
-        \Cakasim\Payone\Sdk\Api\Format\EncoderInterface::class => [ \Cakasim\Payone\Sdk\Api\Format\Encoder::class, true ],
-        \Cakasim\Payone\Sdk\Api\Format\DecoderInterface::class => [ \Cakasim\Payone\Sdk\Api\Format\Decoder::class, true ],
+        \Cakasim\Payone\Sdk\Api\Format\EncoderInterface::class => [\Cakasim\Payone\Sdk\Api\Format\Encoder::class, true],
+        \Cakasim\Payone\Sdk\Api\Format\DecoderInterface::class => [\Cakasim\Payone\Sdk\Api\Format\Decoder::class, true],
 
         // API Client
-        \Cakasim\Payone\Sdk\Api\Client\ClientInterface::class => [ \Cakasim\Payone\Sdk\Api\Client\Client::class, true ],
+        \Cakasim\Payone\Sdk\Api\Client\ClientInterface::class => [\Cakasim\Payone\Sdk\Api\Client\Client::class, true],
     ];
 
     /**

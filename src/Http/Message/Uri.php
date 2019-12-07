@@ -59,7 +59,7 @@ class Uri implements UriInterface
      *
      * @param string|null $uri The URI string to parse or null to create an empty URI.
      */
-    public function __construct(?string $uri = null)
+    public function __construct(string $uri = null)
     {
         // Reset attributes.
         $this->reset();
@@ -158,7 +158,7 @@ class Uri implements UriInterface
      * Sets the scheme of the URI.
      *
      * @param string $scheme The URI scheme.
-     * @return self
+     * @return $this
      */
     protected function setScheme(string $scheme): self
     {
@@ -207,7 +207,7 @@ class Uri implements UriInterface
      * Sets the username of the URI authority part.
      *
      * @param string $user The name of the user.
-     * @return self
+     * @return $this
      */
     protected function setUser(string $user): self
     {
@@ -229,7 +229,7 @@ class Uri implements UriInterface
      * Sets the password of the URI authority part.
      *
      * @param string $pass The password of the user.
-     * @return self
+     * @return $this
      */
     protected function setPass(string $pass): self
     {
@@ -259,7 +259,7 @@ class Uri implements UriInterface
      * Sets the hostname of the authority part.
      *
      * @param string $host The hostname.
-     * @return self
+     * @return $this
      */
     protected function setHost(string $host): self
     {
@@ -294,7 +294,7 @@ class Uri implements UriInterface
      * Sets the port of the authority part.
      *
      * @param int|null $port The port number.
-     * @return self
+     * @return $this
      */
     protected function setPort(?int $port): self
     {
@@ -324,7 +324,7 @@ class Uri implements UriInterface
      * Sets the path of the URI.
      *
      * @param string $path The URI path.
-     * @return self
+     * @return $this
      */
     protected function setPath(string $path): self
     {
@@ -354,7 +354,7 @@ class Uri implements UriInterface
      * Sets the query part of the URI.
      *
      * @param string $query The URI query.
-     * @return self
+     * @return $this
      */
     protected function setQuery(string $query): self
     {
@@ -384,7 +384,7 @@ class Uri implements UriInterface
      * Sets the fragment of the URI.
      *
      * @param string $fragment The URI fragment.
-     * @return self
+     * @return $this
      */
     protected function setFragment(string $fragment): self
     {
