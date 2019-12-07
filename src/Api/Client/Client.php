@@ -80,8 +80,12 @@ class Client implements ClientInterface
         // Get request parameters from request message object.
         $requestParameters = $request->makeParameterArray();
 
-        // Encode the request parameters to API format.
-        $requestParameters = $this->encoder->encode($requestParameters);
+        try {
+            // Encode the request parameters to API format.
+            $requestParameters = $this->encoder->encode($requestParameters);
+        } catch (EncoderExceptionInterface $e) {
+            throw new ClientException("Failed to send API request.", 0, $e);
+        }
 
         try {
             // Make a new HTTP request via the request factory.
@@ -108,8 +112,12 @@ class Client implements ClientInterface
             throw new ClientException("Failed to parse API response. The response body is empty.");
         }
 
-        // Decode response body to parameter array.
-        $responseParameters = $this->decoder->decode($httpResponse);
+        try {
+            // Decode response body to parameter array.
+            $responseParameters = $this->decoder->decode($httpResponse);
+        } catch (DecoderExceptionInterface $e) {
+            throw new ClientException("Failed to send API request.", 0, $e);
+        }
 
         // Populate the response message object with the parameter array.
         $response->parseParameterArray($responseParameters);
