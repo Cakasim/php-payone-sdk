@@ -19,6 +19,12 @@ jobs:
           php-version: ${{ matrix.php }}
           extension-csv: mbstring, xdebug
 
+      - name: Download PHP-CS-Fixer
+        run: |
+          wget -O phpcsf --no-verbose https://cs.symfony.com/download/php-cs-fixer-v2.phar
+          chmod +x phpcsf
+          ./phpcsf --version
+
       - name: Download PHPUnit
         run: |
           wget -O phpunit --no-verbose https://phar.phpunit.de/phpunit-8.phar
@@ -27,6 +33,9 @@ jobs:
 
       - name: Composer Install
         run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Coding Style Checks
+        run: ./phpcsf fix --dry-run --diff --allow-risky=yes
 
       - name: Run Tests
         run: ./phpunit --bootstrap vendor/autoload.php --testdox tests/
