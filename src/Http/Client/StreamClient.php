@@ -61,6 +61,10 @@ class StreamClient extends AbstractClient
         $streamContext = stream_context_create(['http' => $options]);
         $responseBody = @file_get_contents($uri, false, $streamContext);
 
+        if (!is_string($responseBody)) {
+            throw new ClientException("Failed to send HTTP request.");
+        }
+
         // Create a response body stream.
         $responseBody = $this->createBody($responseBody);
 
