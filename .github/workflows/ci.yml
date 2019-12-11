@@ -27,7 +27,7 @@ jobs:
 
       - name: Download PHPUnit
         run: |
-          wget -O phpunit --no-verbose https://phar.phpunit.de/phpunit-8.phar
+          wget -O phpunit --no-verbose https://phar.phpunit.de/phpunit-8.5.phar
           chmod +x phpunit
           ./phpunit --version
 
@@ -38,4 +38,4 @@ jobs:
         run: ./phpcsf fix --dry-run --diff --allow-risky=yes
 
       - name: Run Tests
-        run: ./phpunit --bootstrap vendor/autoload.php --testdox tests/
+        run: ./phpunit
