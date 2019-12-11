@@ -23,6 +23,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class StreamClient extends AbstractClient
 {
+    /**
+     * @inheritDoc
+     */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         // Read basic request parameters.
