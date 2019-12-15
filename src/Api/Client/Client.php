@@ -12,6 +12,7 @@ use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
 use Cakasim\Payone\Sdk\Config\ConfigException;
 use Cakasim\Payone\Sdk\Config\ConfigInterface;
+use Cakasim\Payone\Sdk\Sdk;
 use Psr\Http\Client\ClientExceptionInterface as HttpClientExceptionInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface as HttpRequestFactoryInterface;
@@ -73,12 +74,43 @@ class Client implements ClientInterface
     }
 
     /**
+     * Returns the global request parameters that
+     * will be applied to each request.
+     *
+     * @return array The global request parameter array.
+     * @throws ConfigException If the required configuration is incomplete.
+     */
+    protected function getGlobalRequestParameters(): array
+    {
+        return [
+            'api_version'        => '3.11',
+            'encoding'           => 'UTF-8',
+            'mid'                => $this->config->get('api.merchant_id'),
+            'portalid'           => $this->config->get('api.portal_id'),
+            'key'                => $this->config->get('api.key_hash'),
+            'mode'               => $this->config->get('api.mode'),
+            'solution_name'      => Sdk::API_SOLUTION_NAME,
+            'solution_version'   => Sdk::API_SOLUTION_VERSION,
+            'integrator_name'    => $this->config->get('api.integrator_name'),
+            'integrator_version' => $this->config->get('api.integrator_version'),
+        ];
+    }
+
+    /**
      * @inheritDoc
      */
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void
     {
-        // Get request parameters from request message object.
-        $requestParameters = $request->makeParameterArray();
+        try {
+            // Get request parameters from request message object
+            // and merge them with global request parameters.
+            $requestParameters = array_merge(
+                $request->makeParameterArray(),
+                $this->getGlobalRequestParameters()
+            );
+        } catch (ConfigException $e) {
+            throw new ClientException("Failed to send API request.", 0, $e);
+        }
 
         try {
             // Encode the request parameters to API format.
