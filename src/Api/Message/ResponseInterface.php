@@ -16,6 +16,7 @@ interface ResponseInterface extends MessageInterface
      * Parses a response parameter array.
      *
      * @param array $parameters The parameter array to parse.
+     * @throws ErrorResponseExceptionInterface If the parsed parameter array is a PAYONE API error.
      */
     public function parseParameterArray(array $parameters): void;
 }

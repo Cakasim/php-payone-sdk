@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Client;
 
+use Cakasim\Payone\Sdk\Api\Message\ErrorResponseExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
 
@@ -22,6 +23,7 @@ interface ClientInterface
      * @param RequestInterface $request The request message to send.
      * @param ResponseInterface $response The response message to populate with the API response.
      * @throws ClientExceptionInterface If sending fails.
+     * @throws ErrorResponseExceptionInterface If the response is a PAYONE API error.
      */
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void;
 }

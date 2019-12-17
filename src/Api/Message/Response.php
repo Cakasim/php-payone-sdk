@@ -17,6 +17,25 @@ class Response extends AbstractMessage implements ResponseInterface
      */
     public function parseParameterArray(array $parameters): void
     {
+        $this->checkForError($parameters);
         $this->parameters = $parameters;
+    }
+
+    /**
+     * Throws an ErrorResponseException if the provided
+     * parameters indicate a PAYONE API error.
+     *
+     * @param array $parameters The parameters to check.
+     * @throws ErrorResponseException If the parameters indicate a PAYONE API error.
+     */
+    protected function checkForError(array $parameters): void
+    {
+        if (($parameters['status'] ?? 'ERROR') === 'ERROR') {
+            throw new ErrorResponseException(
+                (int) ($parameters['errorcode'] ?? 0),
+                $parameters['errormessage'] ?? '',
+                $parameters['customermessage'] ?? ''
+            );
+        }
     }
 }
