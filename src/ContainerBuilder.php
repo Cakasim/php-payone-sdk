@@ -22,6 +22,7 @@ class ContainerBuilder
         \Cakasim\Payone\Sdk\Log\Service::class,
         \Cakasim\Payone\Sdk\Http\Service::class,
         \Cakasim\Payone\Sdk\Api\Service::class,
+        \Cakasim\Payone\Sdk\Notification\Service::class,
     ];
 
     /**
@@ -61,6 +62,10 @@ class ContainerBuilder
 
         // API Client
         \Cakasim\Payone\Sdk\Api\Client\ClientInterface::class => [\Cakasim\Payone\Sdk\Api\Client\Client::class, true],
+
+        // Notification
+        \Cakasim\Payone\Sdk\Notification\Processor\ProcessorInterface::class    => [\Cakasim\Payone\Sdk\Notification\Processor\Processor::class, true],
+        \Cakasim\Payone\Sdk\Notification\Handler\HandlerManagerInterface::class => [\Cakasim\Payone\Sdk\Notification\Handler\HandlerManager::class, true],
     ];
 
     /**
