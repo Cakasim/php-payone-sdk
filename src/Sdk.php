@@ -8,6 +8,7 @@ use Cakasim\Payone\Sdk\Api\Service as ApiService;
 use Cakasim\Payone\Sdk\Container\ContainerException;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
 use Cakasim\Payone\Sdk\Log\Service as LogService;
+use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
@@ -79,5 +80,16 @@ class Sdk
     public function getApiService(): ApiService
     {
         return $this->container->get(ApiService::class);
+    }
+
+    /**
+     * Returns the notification service.
+     *
+     * @return NotificationService The notification service.
+     * @throws ContainerExceptionInterface If the notification service cannot be resolved.
+     */
+    public function getNotificationService(): NotificationService
+    {
+        return $this->container->get(NotificationService::class);
     }
 }

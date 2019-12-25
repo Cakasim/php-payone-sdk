@@ -22,6 +22,7 @@ class ContainerBuilder
         \Cakasim\Payone\Sdk\Log\Service::class,
         \Cakasim\Payone\Sdk\Http\Service::class,
         \Cakasim\Payone\Sdk\Api\Service::class,
+        \Cakasim\Payone\Sdk\Notification\Service::class,
     ];
 
     /**
