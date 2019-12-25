@@ -19,6 +19,7 @@ interface ProcessorInterface
      * Processes an inbound HTTP request as PAYONE notification message.
      *
      * @param ServerRequestInterface $request The inbound HTTP request.
+     * @throws ProcessorExceptionInterface If processing fails.
      */
     public function processRequest(ServerRequestInterface $request): void;
 }
