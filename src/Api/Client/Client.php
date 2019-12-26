@@ -74,13 +74,13 @@ class Client implements ClientInterface
     }
 
     /**
-     * Returns the global request parameters that
+     * Returns the general request parameters that
      * will be applied to each request.
      *
-     * @return array The global request parameter array.
+     * @return array The general request parameter array.
      * @throws ConfigException If the required configuration is incomplete.
      */
-    protected function getGlobalRequestParameters(): array
+    protected function getGeneralRequestParameters(): array
     {
         return [
             'api_version'        => '3.11',
@@ -102,15 +102,14 @@ class Client implements ClientInterface
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void
     {
         try {
-            // Get request parameters from request message object
-            // and merge them with global request parameters.
-            $requestParameters = array_merge(
-                $request->makeParameterArray(),
-                $this->getGlobalRequestParameters()
-            );
+            // Apply general parameters to the request.
+            $request->applyGeneralParameters($this->getGeneralRequestParameters());
         } catch (ConfigException $e) {
             throw new ClientException("Failed to send API request.", 0, $e);
         }
+
+        // Make the parameter array from the request.
+        $requestParameters = $request->makeParameterArray();
 
         try {
             // Encode the request parameters to API format.

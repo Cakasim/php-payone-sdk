@@ -13,6 +13,13 @@ namespace Cakasim\Payone\Sdk\Api\Message;
 interface RequestInterface extends MessageInterface
 {
     /**
+     * Applies the general parameters for this request.
+     *
+     * @param array $parameters The general request parameters.
+     */
+    public function applyGeneralParameters(array $parameters): void;
+
+    /**
      * Makes the parameter array from the request message.
      *
      * @return array The parameter array.
