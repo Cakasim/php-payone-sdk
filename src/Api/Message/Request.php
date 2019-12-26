@@ -25,6 +25,38 @@ class Request extends AbstractMessage implements RequestInterface
     /**
      * @inheritDoc
      */
+    public function getMerchantId(): ?string
+    {
+        return $this->parameters['mid'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPortalId(): ?string
+    {
+        return $this->parameters['portalid'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApiVersion(): ?string
+    {
+        return $this->parameters['api_version'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMode(): ?string
+    {
+        return $this->parameters['mode'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function generateState(): array
     {
         $state = parent::generateState();

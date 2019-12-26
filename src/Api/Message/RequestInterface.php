@@ -13,6 +13,34 @@ namespace Cakasim\Payone\Sdk\Api\Message;
 interface RequestInterface extends MessageInterface
 {
     /**
+     * Returns the merchant ID.
+     *
+     * @return string|null The merchant ID or null if not set.
+     */
+    public function getMerchantId(): ?string;
+
+    /**
+     * Returns the portal ID.
+     *
+     * @return string|null The portal ID or null if not set.
+     */
+    public function getPortalId(): ?string;
+
+    /**
+     * Returns the API version.
+     *
+     * @return string|null The API version or null if not set.
+     */
+    public function getApiVersion(): ?string;
+
+    /**
+     * Returns the API mode.
+     *
+     * @return string|null The API mode or null if not set.
+     */
+    public function getMode(): ?string;
+
+    /**
      * Applies the general parameters for this request.
      *
      * @param array $parameters The general request parameters.
