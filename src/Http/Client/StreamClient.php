@@ -68,9 +68,19 @@ class StreamClient extends AbstractClient
             throw new ClientException("Failed to send HTTP request.");
         }
 
+        $response = $this->createResponse();
+
+        // Parse response header lines.
+        foreach ($http_response_header as $line) {
+            $line = explode(':', $line, 2);
+            if (count($line) === 2) {
+                $response = $response->withHeader(trim($line[0]), trim($line[1]));
+            }
+        }
+
         // Create a response body stream.
         $responseBody = $this->createBody($responseBody);
 
-        return $this->createResponse()->withBody($responseBody);
+        return $response->withBody($responseBody);
     }
 }
