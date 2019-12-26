@@ -18,11 +18,31 @@ abstract class AbstractMessage implements MessageInterface
     protected $parameters = [];
 
     /**
+     * Generates a representation of the current state for serializing.
+     *
+     * @return array A serializable representation of the current state.
+     */
+    protected function generateState(): array
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Restores the state from the provided data.
+     *
+     * @param array $data The data to restore the state from.
+     */
+    protected function restoreState(array $data): void
+    {
+        $this->parameters = $data;
+    }
+
+    /**
      * @inheritDoc
      */
     public function serialize(): string
     {
-        return \serialize($this->parameters);
+        return \serialize($this->generateState());
     }
 
     /**
@@ -30,6 +50,6 @@ abstract class AbstractMessage implements MessageInterface
      */
     public function unserialize($serialized): void
     {
-        $this->parameters = \unserialize($serialized);
+        $this->restoreState(\unserialize($serialized));
     }
 }
