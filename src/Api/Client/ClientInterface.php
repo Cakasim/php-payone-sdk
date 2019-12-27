@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Client;
 
-use Cakasim\Payone\Sdk\Api\Message\ErrorResponseExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Message;
 
+use Psr\Http\Message\StreamInterface;
+
 /**
  * The interface for API response messages.
  *
@@ -13,10 +15,9 @@ namespace Cakasim\Payone\Sdk\Api\Message;
 interface ResponseInterface extends MessageInterface
 {
     /**
-     * Parses a response parameter array.
+     * Parses response data.
      *
-     * @param array $parameters The parameter array to parse.
-     * @throws ErrorResponseExceptionInterface If the parsed parameter array is a PAYONE API error.
+     * @param array|StreamInterface $data A parameter array or the raw body stream of the API response.
      */
-    public function parseParameterArray(array $parameters): void;
+    public function parseResponseData($data): void;
 }

@@ -16,6 +16,8 @@ use Cakasim\Payone\Sdk\Sdk;
 use Psr\Http\Client\ClientExceptionInterface as HttpClientExceptionInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface as HttpRequestFactoryInterface;
+use Psr\Http\Message\RequestInterface as HttpRequestInterface;
+use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 
 /**
  * The API client implementation.
@@ -101,56 +103,141 @@ class Client implements ClientInterface
      */
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void
     {
-        try {
-            // Apply general parameters to the request.
-            $request->applyGeneralParameters($this->getGeneralRequestParameters());
-        } catch (ConfigException $e) {
-            throw new ClientException("Failed to send API request.", 0, $e);
-        }
+        // Applies the general request parameters.
+        $this->applyGeneralRequestParameters($request);
 
         // Make the parameter array from the request.
         $requestParameters = $request->makeParameterArray();
 
+        // Create ready-to-send HTTP request from parameter array.
+        $httpRequest = $this->createHttpRequest($requestParameters);
+
+        // Send the HTTP request to PAYONE.
+        $httpResponse = $this->sendHttpRequest($httpRequest);
+
+        $responseData = $this->readParametersFromHttpResponse($httpResponse);
+
+        if ($responseData) {
+            // Check if response parameters represent an API error.
+            $this->checkForErrorResponse($responseData);
+        } else {
+            // Use raw response body if no response parameters could be read.
+            $responseData = $httpResponse->getBody();
+        }
+
+        // Delegate further parsing to provided API response.
+        $response->parseResponseData($responseData);
+    }
+
+    /**
+     * Applies the general request parameters to the API request.
+     *
+     * @param RequestInterface $request The API request to which the parameters will be applied.
+     * @throws ClientException If the general parameters cannot be applied to the API request.
+     */
+    protected function applyGeneralRequestParameters(RequestInterface $request): void
+    {
+        try {
+            // Apply general parameters to the request.
+            $request->applyGeneralParameters($this->getGeneralRequestParameters());
+        } catch (ConfigException $e) {
+            throw new ClientException("Cannot apply general request parameters.", 0, $e);
+        }
+    }
+
+    /**
+     * Creates the HTTP request.
+     *
+     * @param array $parameters The API parameters of the request.
+     * @return HttpRequestInterface The created HTTP request.
+     * @throws ClientException If the HTTP request cannot be created.
+     */
+    protected function createHttpRequest(array $parameters): HttpRequestInterface
+    {
+        try {
+            // Get PAYONE API endpoint from config.
+            $endpoint = $this->config->get('api.endpoint');
+        } catch (ConfigException $e) {
+            throw new ClientException("Cannot create HTTP request.", 0, $e);
+        }
+
+        // Create HTTP request via PSR-17 factory.
+        $request = $this->httpRequestFactory->createRequest('POST', $endpoint)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
         try {
             // Encode the request parameters to API format.
-            $requestParameters = $this->encoder->encode($requestParameters);
+            $body = $this->encoder->encode($parameters);
         } catch (EncoderExceptionInterface $e) {
-            throw new ClientException("Failed to send API request.", 0, $e);
+            throw new ClientException("Cannot create HTTP request.", 0, $e);
         }
 
-        try {
-            // Make a new HTTP request via the request factory.
-            // Get API endpoint from config and set the content type header.
-            $httpRequest = $this->httpRequestFactory->createRequest('POST', $this->config->get('api.endpoint'))
-                ->withHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        } catch (ConfigException $e) {
-            throw new ClientException("Failed to send API request.", 0, $e);
-        }
+        // Write body contents to the request body.
+        $request->getBody()->write($body);
 
-        // Write the encoded parameters to the request body.
-        $httpRequest->getBody()->write($requestParameters);
+        return $request;
+    }
 
+    /**
+     * Sends the HTTP request.
+     *
+     * @param HttpRequestInterface $request The HTTP request to send.
+     * @return HttpResponseInterface The resulting HTTP response.
+     * @throws ClientException If sending of the HTTP request fails.
+     */
+    protected function sendHttpRequest(HttpRequestInterface $request): HttpResponseInterface
+    {
         try {
-            $httpResponse = $this->httpClient->sendRequest($httpRequest);
+            return $this->httpClient->sendRequest($request);
         } catch (HttpClientExceptionInterface $e) {
             throw new ClientException("Failed to send API request.", 0, $e);
         }
+    }
 
-        // Retrieve the response body.
-        $httpResponse = (string) $httpResponse->getBody();
+    /**
+     * Reads the API response parameters if possible.
+     *
+     * @param HttpResponseInterface $response The HTTP response to read the parameters from.
+     * @return array|null The response parameters or null if no parameters can be read.
+     * @throws ClientException If reading the response parameters fails.
+     */
+    protected function readParametersFromHttpResponse(HttpResponseInterface $response): ?array
+    {
+        // Ensure text/plain content type which indicates a parameter response.
+        if (stristr($response->getHeaderLine('Content-Type'), 'text/plain') === false) {
+            return null;
+        }
 
-        if (empty($httpResponse)) {
-            throw new ClientException("Failed to parse API response. The response body is empty.");
+        // Get whole body contents of the response.
+        $bodyContents = $response->getBody()->getContents();
+
+        // Expect a non-empty response body.
+        if (empty($bodyContents)) {
+            throw new ClientException("Cannot read response parameters. The response body is empty.");
         }
 
         try {
             // Decode response body to parameter array.
-            $responseParameters = $this->decoder->decode($httpResponse);
+            return $this->decoder->decode($bodyContents);
         } catch (DecoderExceptionInterface $e) {
-            throw new ClientException("Failed to send API request.", 0, $e);
+            throw new ClientException("Cannot read response parameters. Failed decoding the response body.", 0, $e);
         }
+    }
 
-        // Populate the response message object with the parameter array.
-        $response->parseParameterArray($responseParameters);
+    /**
+     * Checks for PAYONE API error.
+     *
+     * @param array $parameters The response parameters to check.
+     * @throws ErrorResponseException If the response parameters represent a PAYONE API error.
+     */
+    protected function checkForErrorResponse(array $parameters): void
+    {
+        if (($parameters['status'] ?? 'ERROR') === 'ERROR') {
+            throw new ErrorResponseException(
+                (int) ($parameters['errorcode'] ?? 0),
+                $parameters['errormessage'] ?? '',
+                $parameters['customermessage'] ?? ''
+            );
+        }
     }
 }
