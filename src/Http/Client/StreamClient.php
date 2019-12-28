@@ -12,12 +12,6 @@ use Psr\Http\Message\ResponseInterface;
  * make HTTP requests. This provides a client implementation
  * with zero dependencies.
  *
- * Currently this client implementation lacks some major features
- * like HTTP response header parsing as well as response code parsing.
- * However, the response body will be recognized.
- *
- * You may want to use the CurlClient instead.
- *
  * @author Fabian Böttcher <me@cakasim.de>
  * @since 0.1.0
  */
@@ -28,10 +22,75 @@ class StreamClient extends AbstractClient
      */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        // Read basic request parameters.
-        $method = $request->getMethod();
-        $uri = (string) $request->getUri();
-        $body = (string) $request->getBody();
+        // Make stream context options.
+        $options = $this->makeStreamContextOptions($request);
+
+        // Create HTTP stream context.
+        $context = stream_context_create(['http' => $options]);
+
+        // Register temporary error handler to catch fopen warnings.
+        $err = [];
+        set_error_handler(function (int $code, string $message) use (&$err): void {
+            $err['code'] = $code;
+            $err['message'] = $message;
+        });
+
+        // Open the file and restore the error handler.
+        $stream = fopen((string) $request->getUri(), 'r', false, $context);
+        restore_error_handler();
+
+        if (!empty($err)) {
+            throw new ClientException("Failed to send HTTP request: [{$err['code']}] {$err['message']}");
+        }
+
+        if (!is_resource($stream)) {
+            throw new ClientException("Failed to create HTTP request stream.");
+        }
+
+        // Create the HTTP response.
+        $response = $this->createResponse();
+
+        // Parse $http_response_header data.
+        $response = $this->parseResponseHeaders($response, $http_response_header);
+
+        // Create a response body stream.
+        $responseBody = $this->streamFactory->createStreamFromResource($stream);
+
+        return $response->withBody($responseBody);
+    }
+
+    /**
+     * Makes the stream context options.
+     *
+     * @param RequestInterface $request The HTTP request.
+     * @return array The stream context options.
+     */
+    protected function makeStreamContextOptions(RequestInterface $request): array
+    {
+        $options = [
+            'method'        => $request->getMethod(),
+            'header'        => $this->makeHeaders($request),
+            'ignore_errors' => true, // Fetch the content even on failure status codes.
+        ];
+
+        $body = $request->getBody()->getContents();
+
+        // Add content to options if the request body is not empty.
+        if (!empty($body)) {
+            $options['content'] = $body;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Makes the headers suitable for the stream context options.
+     *
+     * @param RequestInterface $request The HTTP request.
+     * @return string The request headers.
+     */
+    protected function makeHeaders(RequestInterface $request): string
+    {
         $headers = [];
 
         // Populate headers array.
@@ -47,40 +106,26 @@ class StreamClient extends AbstractClient
         }, $headers);
 
         // Join header lines by default HTTP header line feed
-        $headers = join("\r\n", $headers);
+        return join("\r\n", $headers);
+    }
 
-        // Populate stream_context_create options.
-        $options = [
-            'method' => $method,
-            'header' => $headers,
-        ];
-
-        // Add content to options if the request body contains content.
-        if (!empty($body)) {
-            $options['content'] = $body;
-        }
-
-        // Create stream context and execute the HTTP request.
-        $streamContext = stream_context_create(['http' => $options]);
-        $responseBody = @file_get_contents($uri, false, $streamContext);
-
-        if (!is_string($responseBody)) {
-            throw new ClientException("Failed to send HTTP request.");
-        }
-
-        $response = $this->createResponse();
-
+    /**
+     * Parses the response headers.
+     *
+     * @param ResponseInterface $response The HTTP response.
+     * @param array $headers The response headers from $http_response_header.
+     * @return ResponseInterface The HTTP response configured with headers.
+     */
+    protected function parseResponseHeaders(ResponseInterface $response, array $headers): ResponseInterface
+    {
         // Parse response header lines.
-        foreach ($http_response_header as $line) {
+        foreach ($headers as $line) {
             $line = explode(':', $line, 2);
             if (count($line) === 2) {
                 $response = $response->withHeader(trim($line[0]), trim($line[1]));
             }
         }
 
-        // Create a response body stream.
-        $responseBody = $this->createBody($responseBody);
-
-        return $response->withBody($responseBody);
+        return $response;
     }
 }
