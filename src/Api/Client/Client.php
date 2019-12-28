@@ -172,8 +172,9 @@ class Client implements ClientInterface
             throw new ClientException("Cannot create HTTP request.", 0, $e);
         }
 
-        // Write body contents to the request body.
+        // Write body contents to the request body and rewind the stream.
         $request->getBody()->write($body);
+        $request->getBody()->rewind();
 
         return $request;
     }
