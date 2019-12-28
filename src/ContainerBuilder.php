@@ -43,10 +43,11 @@ class ContainerBuilder
         // Container binds itself within the container constructor.
 
         // PSR-17
-        \Psr\Http\Message\UriFactoryInterface::class      => [\Cakasim\Payone\Sdk\Http\Factory\UriFactory::class, true],
-        \Psr\Http\Message\StreamFactoryInterface::class   => [\Cakasim\Payone\Sdk\Http\Factory\StreamFactory::class, true],
-        \Psr\Http\Message\RequestFactoryInterface::class  => [\Cakasim\Payone\Sdk\Http\Factory\RequestFactory::class, true],
-        \Psr\Http\Message\ResponseFactoryInterface::class => [\Cakasim\Payone\Sdk\Http\Factory\ResponseFactory::class, true],
+        \Psr\Http\Message\UriFactoryInterface::class           => [\Cakasim\Payone\Sdk\Http\Factory\UriFactory::class, true],
+        \Psr\Http\Message\StreamFactoryInterface::class        => [\Cakasim\Payone\Sdk\Http\Factory\StreamFactory::class, true],
+        \Psr\Http\Message\RequestFactoryInterface::class       => [\Cakasim\Payone\Sdk\Http\Factory\RequestFactory::class, true],
+        \Psr\Http\Message\ResponseFactoryInterface::class      => [\Cakasim\Payone\Sdk\Http\Factory\ResponseFactory::class, true],
+        \Psr\Http\Message\ServerRequestFactoryInterface::class => [\Cakasim\Payone\Sdk\Http\Factory\ServerRequestFactory::class, true],
 
         // PSR-18
         \Psr\Http\Client\ClientInterface::class => [\Cakasim\Payone\Sdk\Http\Client\StreamClient::class, true],
