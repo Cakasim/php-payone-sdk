@@ -13,6 +13,16 @@ namespace Cakasim\Payone\Sdk\Api\Message;
 class Response extends AbstractMessage implements ResponseInterface
 {
     /**
+     * Returns the status of the response.
+     *
+     * @return string|null The status or null if not set.
+     */
+    public function getStatus(): ?string
+    {
+        return $this->parameters['status'] ?? null;
+    }
+
+    /**
      * @inheritDoc
      */
     public function parseResponseData($data): void
