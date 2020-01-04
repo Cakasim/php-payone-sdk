@@ -7,7 +7,7 @@
     cacheResultFile="build/cache/phpunit.cache"
     cacheTokens="true"
     colors="true"
-    forceCoversAnnotation="true"
+    forceCoversAnnotation="false"
     failOnRisky="true"
     failOnWarning="true"
     beStrictAboutChangesToGlobalState="true"
