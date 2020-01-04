@@ -1,24 +1,25 @@
 os: linux
 language: php
 php:
-  - '7.1'
   - '7.2'
   - '7.3'
   - '7.4'
   - nightly
 
+jobs:
+  allow_failures:
+    - php: nightly
+
 cache:
   directories:
     - $HOME/.composer/cache
 
-before_install:
-  - travis_retry composer self-update
-
 install:
-  - travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest
+  - composer install --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
 
 before_script:
-  - travis_retry curl --silent -L https://phar.phpunit.de/phpunit-8.phar --create-dirs --output vendor/bin/phpunit
+  - curl --silent -L https://phar.phpunit.de/phpunit-8.phar --create-dirs --output vendor/bin/phpunit
+  - chmod +x vendor/bin/phpunit
 
 script:
   - vendor/bin/phpunit
