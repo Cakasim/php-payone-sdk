@@ -37,20 +37,6 @@ The SDK for PAYONE Payment Integration is open-sourced software licensed under t
 Installing the SDK
 ------------------
 
-Within your composer-based project, you can reference the SDK repository to install it as a
-regular composer package. Modify your `composer.json` as follows:
-
-```json
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Cakasim/php-payone-sdk.git"
-        }
-    ]
-}
-```
-
 Just run `composer require cakasim/payone-sdk@dev-develop` to install the SDK via composer.
 
 Core Concepts
