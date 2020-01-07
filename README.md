@@ -3,6 +3,7 @@ SDK for PAYONE Payment Integration
 
 [![CI Status](https://github.com/Cakasim/php-payone-sdk/workflows/CI/badge.svg?branch=develop)](https://github.com/Cakasim/php-payone-sdk/actions)
 [![Build Status](https://travis-ci.org/Cakasim/php-payone-sdk.svg?branch=develop)](https://travis-ci.org/Cakasim/php-payone-sdk)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cakasim/php-payone-sdk/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Cakasim/php-payone-sdk/?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/Cakasim/php-payone-sdk/badge.svg?branch=develop)](https://coveralls.io/github/Cakasim/php-payone-sdk?branch=develop)
 [![LICENSE](https://img.shields.io/github/license/Cakasim/php-payone-sdk.svg)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/cakasim/payone-sdk/downloads)](https://packagist.org/packages/cakasim/payone-sdk)
