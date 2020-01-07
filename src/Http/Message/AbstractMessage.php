@@ -30,7 +30,7 @@ abstract class AbstractMessage implements MessageInterface
     protected $headers = [];
 
     /**
-     * @var StreamInterface|null The HTTP body or null if the body is empty.
+     * @var StreamInterface The HTTP body.
      */
     protected $body;
 
