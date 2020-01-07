@@ -25,6 +25,12 @@ jobs:
           chmod +x phpcsf
           ./phpcsf --version
 
+      - name: Download PHPStan
+        run: |
+          wget -O phpstan --no-verbose https://github.com/phpstan/phpstan/releases/download/0.12.4/phpstan.phar
+          chmod +x phpstan
+          ./phpstan --version
+
       - name: Download PHPUnit
         run: |
           wget -O phpunit --no-verbose https://phar.phpunit.de/phpunit-8.5.phar
@@ -33,6 +39,9 @@ jobs:
 
       - name: Composer Install
         run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Static Code Analysis
+        run: ./phpstan analyse
 
       - name: Run Coding Style Checks
         run: ./phpcsf -v fix --dry-run --allow-risky=yes
