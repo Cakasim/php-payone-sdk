@@ -79,7 +79,7 @@ class ContainerBuilder
      *
      * @throws ContainerException
      */
-    public final function __construct()
+    final public function __construct()
     {
         $this->container = new Container();
         $this->bindServices();
