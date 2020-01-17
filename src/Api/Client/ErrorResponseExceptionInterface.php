@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Client;
 
-use Throwable;
+use Cakasim\Payone\Sdk\SdkExceptionInterface;
 
 /**
  * The interface for exceptions thrown because of
@@ -13,7 +13,7 @@ use Throwable;
  * @author Fabian Böttcher <me@cakasim.de>
  * @since 0.1.0
  */
-interface ErrorResponseExceptionInterface extends Throwable
+interface ErrorResponseExceptionInterface extends SdkExceptionInterface
 {
     /**
      * Returns the PAYONE API error code.
