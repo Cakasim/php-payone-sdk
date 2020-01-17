@@ -25,7 +25,7 @@ interface ConfigInterface
      *
      * @param string $name The name of the entry.
      * @return mixed The entry value.
-     * @throws ConfigException If the entry does not exist or the entry cannot be retrieved.
+     * @throws ConfigExceptionInterface If the entry does not exist or the entry cannot be retrieved.
      */
     public function get(string $name);
 

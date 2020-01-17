@@ -10,7 +10,7 @@ use Cakasim\Payone\Sdk\Api\Format\EncoderExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Format\EncoderInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
-use Cakasim\Payone\Sdk\Config\ConfigException;
+use Cakasim\Payone\Sdk\Config\ConfigExceptionInterface;
 use Cakasim\Payone\Sdk\Config\ConfigInterface;
 use Cakasim\Payone\Sdk\Sdk;
 use Psr\Http\Client\ClientExceptionInterface as HttpClientExceptionInterface;
@@ -80,7 +80,7 @@ class Client implements ClientInterface
      * will be applied to each request.
      *
      * @return array The general request parameter array.
-     * @throws ConfigException If the required configuration is incomplete.
+     * @throws ConfigExceptionInterface If the required configuration is incomplete.
      */
     protected function getGeneralRequestParameters(): array
     {
@@ -140,7 +140,7 @@ class Client implements ClientInterface
         try {
             // Apply general parameters to the request.
             $request->applyGeneralParameters($this->getGeneralRequestParameters());
-        } catch (ConfigException $e) {
+        } catch (ConfigExceptionInterface $e) {
             throw new ClientException("Cannot apply general request parameters.", 0, $e);
         }
     }
@@ -157,7 +157,7 @@ class Client implements ClientInterface
         try {
             // Get PAYONE API endpoint from config.
             $endpoint = $this->config->get('api.endpoint');
-        } catch (ConfigException $e) {
+        } catch (ConfigExceptionInterface $e) {
             throw new ClientException("Cannot create HTTP request.", 0, $e);
         }
 

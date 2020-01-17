@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Notification\Processor;
 
-use Cakasim\Payone\Sdk\Config\ConfigException;
+use Cakasim\Payone\Sdk\Config\ConfigExceptionInterface;
 use Cakasim\Payone\Sdk\Config\ConfigInterface;
 use Cakasim\Payone\Sdk\Notification\Context\Context;
 use Cakasim\Payone\Sdk\Notification\Handler\HandlerManagerInterface;
@@ -112,7 +112,7 @@ class Processor implements ProcessorInterface
         try {
             // Get list of allowed sender IP ranges.
             $whitelist = $this->config->get('notification.sender_address_whitelist');
-        } catch (ConfigException $e) {
+        } catch (ConfigExceptionInterface $e) {
             throw new ProcessorException("Failed notification processing, cannot get sender address whitelist from config.", 0, $e);
         }
 
@@ -168,7 +168,7 @@ class Processor implements ProcessorInterface
     {
         try {
             $validKey = $this->config->get('api.key_hash');
-        } catch (ConfigException $e) {
+        } catch (ConfigExceptionInterface $e) {
             throw new ProcessorException("Failed notification processing, cannot get API key from config.", 0, $e);
         }
 
