@@ -42,37 +42,21 @@
             "Cakasim\\Payone\\Sdk\\Tests\\": "tests/"
         }
     },
-    "suggest": {
-        "ext-curl": "Required in order to use the cURL HTTP driver."
-    },
-    "require-dev": {
-    },
+    "require-dev": {},
     "scripts": {
-        "cakasim:phpdoc": "php vendor/bin/phpdoc",
-        "cakasim:phpcsf": "php vendor/bin/phpcsf",
-        "cakasim:phpunit": "php vendor/bin/phpunit",
-        "cakasim:phpstan": "php vendor/bin/phpstan",
-        "cakasim:download-phpdoc": "curl -L https://github.com/phpDocumentor/phpDocumentor/releases/download/v3.0.0-alpha.4/phpDocumentor.phar --create-dirs --output vendor/bin/phpdoc",
-        "cakasim:download-phpcsf": "curl -L https://cs.symfony.com/download/php-cs-fixer-v2.phar --create-dirs --output vendor/bin/phpcsf",
-        "cakasim:download-phpunit": "curl -L https://phar.phpunit.de/phpunit-8.phar --create-dirs --output vendor/bin/phpunit",
-        "cakasim:download-all": [
-            "@cakasim:download-phpdoc",
-            "@cakasim:download-phpcsf",
-            "@cakasim:download-phpunit"
-        ],
-        "cakasim:tests": "@cakasim:phpunit --bootstrap vendor/autoload.php --testdox --coverage-html build/coverage --whitelist src tests",
-        "cakasim:qa": [
-            "@cakasim:phpcsf fix --dry-run --diff",
-            "@cakasim:phpdoc",
-            "@cakasim:phpunit --bootstrap vendor/autoload.php --testdox --coverage-html build/coverage --whitelist src tests"
-        ],
-        "cakasim:code-style": "@cakasim:phpcsf fix --dry-run --diff --allow-risky=yes",
-        "cakasim:make-docs": "@cakasim:phpdoc",
-        "cakasim:static-analysis": "@cakasim:phpstan analyse"
+        "download-phpcsf": "curl --silent -L https://cs.symfony.com/download/php-cs-fixer-v2.phar --create-dirs --output vendor/bin/phpcsf",
+        "download-phpstan": "curl --silent -L https://github.com/phpstan/phpstan/releases/download/0.12.5/phpstan.phar --create-dirs --output vendor/bin/phpstan",
+        "download-phpunit": "curl --silent -L https://phar.phpunit.de/phpunit-8.phar --create-dirs --output vendor/bin/phpunit",
+        "phpcsf": "php vendor/bin/phpcsf -v fix --dry-run --allow-risky=yes",
+        "phpstan": "php vendor/bin/phpstan analyse",
+        "phpunit": "php vendor/bin/phpunit"
     },
     "scripts-descriptions": {
-        "cakasim:download-phpdoc": "Downloads latest phpDocumentor PHAR and saves it as phpdoc.",
-        "cakasim:download-phpcsf": "Downloads latest PHP Coding Standards Fixer and saves it as phpcsf.",
-        "cakasim:download-phpunit": "Downloads latest PHPUnit 8 and saves it as phpunit."
+        "download-phpcsf": "Downloads PHP Coding Standards Fixer and saves it to vendor/bin/phpcsf.",
+        "download-phpstan": "Downloads PHP Coding Standards Fixer and saves it to vendor/bin/phpcsf.",
+        "download-phpunit": "Downloads PHPUnit 8 and saves it to vendor/bin/phpunit.",
+        "phpcsf": "Runs PHP Coding Standards Fixer to identify coding style issues.",
+        "phpstan": "Runs static code analysis to detect possible errors / bugs.",
+        "phpunit": "Runs the tests."
     }
 }
