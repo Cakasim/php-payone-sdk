@@ -21,30 +21,30 @@ jobs:
 
       - name: Download PHP-CS-Fixer
         run: |
-          wget -O phpcsf --no-verbose https://cs.symfony.com/download/php-cs-fixer-v2.phar
-          chmod +x phpcsf
-          ./phpcsf --version
+          composer download-phpcsf
+          chmod +x vendor/bin/phpcsf
+          vendor/bin/phpcsf --version
 
       - name: Download PHPStan
         run: |
-          wget -O phpstan --no-verbose https://github.com/phpstan/phpstan/releases/download/0.12.4/phpstan.phar
-          chmod +x phpstan
-          ./phpstan --version
+          composer download-phpstan
+          chmod +x vendor/bin/phpstan
+          vendor/bin/phpstan --version
 
       - name: Download PHPUnit
         run: |
-          wget -O phpunit --no-verbose https://phar.phpunit.de/phpunit-8.5.phar
-          chmod +x phpunit
-          ./phpunit --version
+          composer download-phpunit
+          chmod +x vendor/bin/phpunit
+          vendor/bin/phpunit --version
 
       - name: Composer Install
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run Static Code Analysis
-        run: ./phpstan analyse
-
       - name: Run Coding Style Checks
-        run: ./phpcsf -v fix --dry-run --allow-risky=yes
+        run: vendor/bin/phpcsf -v fix --dry-run --allow-risky=yes
+
+      - name: Run Static Code Analysis
+        run: vendor/bin/phpstan analyse
 
       - name: Run Tests
-        run: ./phpunit
+        run: vendor/bin/phpunit
