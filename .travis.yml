@@ -18,7 +18,7 @@ install:
   - composer install --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
 
 before_script:
-  - curl --silent -L https://phar.phpunit.de/phpunit-8.phar --create-dirs --output vendor/bin/phpunit
+  - composer download-phpunit
   - chmod +x vendor/bin/phpunit
 
 script:
