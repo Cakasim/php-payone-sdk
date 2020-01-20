@@ -8,6 +8,7 @@ use Cakasim\Payone\Sdk\Api\Format\DecoderExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Format\DecoderInterface;
 use Cakasim\Payone\Sdk\Api\Format\EncoderExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Format\EncoderInterface;
+use Cakasim\Payone\Sdk\Api\Message\Parameter\SubAccountIdAwareInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
 use Cakasim\Payone\Sdk\Config\ConfigExceptionInterface;
@@ -82,9 +83,9 @@ class Client implements ClientInterface
      * @return array The general request parameter array.
      * @throws ConfigExceptionInterface If the required configuration is incomplete.
      */
-    protected function getGeneralRequestParameters(): array
+    protected function makeGeneralRequestParameters(RequestInterface $request): array
     {
-        return [
+        $parameters = [
             'api_version'        => '3.11',
             'encoding'           => 'UTF-8',
             'mid'                => $this->config->get('api.merchant_id'),
@@ -96,6 +97,13 @@ class Client implements ClientInterface
             'integrator_name'    => $this->config->get('api.integrator_name'),
             'integrator_version' => $this->config->get('api.integrator_version'),
         ];
+
+        // Check if the request supports the sub account ID (aid) parameter.
+        if ($request instanceof SubAccountIdAwareInterface) {
+            $parameters['aid'] = $this->config->get('api.sub_account_id');
+        }
+
+        return $parameters;
     }
 
     /**
@@ -139,7 +147,7 @@ class Client implements ClientInterface
     {
         try {
             // Apply general parameters to the request.
-            $request->applyGeneralParameters($this->getGeneralRequestParameters());
+            $request->applyGeneralParameters($this->makeGeneralRequestParameters($request));
         } catch (ConfigExceptionInterface $e) {
             throw new ClientException("Cannot apply general request parameters.", 0, $e);
         }
