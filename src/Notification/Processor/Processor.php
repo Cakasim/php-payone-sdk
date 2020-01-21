@@ -167,10 +167,13 @@ class Processor implements ProcessorInterface
     protected function verifyKey(string $key): void
     {
         try {
-            $validKey = $this->config->get('api.key_hash');
+            $validKey = $this->config->get('api.key');
         } catch (ConfigExceptionInterface $e) {
             throw new ProcessorException("Failed notification processing, cannot get API key from config.", 0, $e);
         }
+
+        // Make MD5 hash from configured API key.
+        $validKey = md5($validKey);
 
         if ($validKey !== $key) {
             throw new ProcessorException("Failed notification processing, wrong API key.");
