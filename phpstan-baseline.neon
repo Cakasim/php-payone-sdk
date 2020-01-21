@@ -51,14 +51,9 @@ parameters:
 			path: src\Http\Message\Stream.php
 
 		-
-			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Notification\\\\Message\\\\TransactionStatus\\:\\:serialize\\(\\) has no return typehint specified\\.$#"
+			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Notification\\\\Message\\\\AbstractMessage\\:\\:unserialize\\(\\) has parameter \\$serialized with no typehint specified\\.$#"
 			count: 1
-			path: src\Notification\Message\TransactionStatus.php
-
-		-
-			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Notification\\\\Message\\\\TransactionStatus\\:\\:unserialize\\(\\) has parameter \\$serialized with no typehint specified\\.$#"
-			count: 1
-			path: src\Notification\Message\TransactionStatus.php
+			path: src\Notification\Message\AbstractMessage.php
 
 		-
 			message: "#^PHPDoc tag @throws with type Psr\\\\Container\\\\ContainerExceptionInterface is not subtype of Throwable$#"

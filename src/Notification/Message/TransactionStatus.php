@@ -10,39 +10,8 @@ namespace Cakasim\Payone\Sdk\Notification\Message;
  * @author Fabian Böttcher <me@cakasim.de>
  * @since 0.1.0
  */
-class TransactionStatus implements TransactionStatusInterface
+class TransactionStatus extends AbstractMessage implements TransactionStatusInterface
 {
-    /**
-     * @var array The transaction status parameters.
-     */
-    protected $parameters;
-
-    /**
-     * Constructs the transaction status message with parameters.
-     *
-     * @param array $parameters The parameters of the transaction status.
-     */
-    public function __construct(array $parameters)
-    {
-        $this->parameters = $parameters;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function serialize()
-    {
-        return \serialize($this->parameters);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unserialize($serialized): void
-    {
-        $this->parameters = \unserialize($serialized);
-    }
-
     /**
      * @inheritDoc
      */
