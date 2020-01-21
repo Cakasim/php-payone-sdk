@@ -90,7 +90,7 @@ class Client implements ClientInterface
             'encoding'           => 'UTF-8',
             'mid'                => $this->config->get('api.merchant_id'),
             'portalid'           => $this->config->get('api.portal_id'),
-            'key'                => $this->config->get('api.key_hash'),
+            'key'                => $this->makeKeyHash(),
             'mode'               => $this->config->get('api.mode'),
             'solution_name'      => Sdk::API_SOLUTION_NAME,
             'solution_version'   => Sdk::API_SOLUTION_VERSION,
@@ -104,6 +104,20 @@ class Client implements ClientInterface
         }
 
         return $parameters;
+    }
+
+    /**
+     * Returns the hash value of the API key.
+     *
+     * @return string The API key hash.
+     * @throws ConfigExceptionInterface If the required configuration is incomplete.
+     */
+    protected function makeKeyHash(): string
+    {
+        return hash(
+            $this->config->get('api.key_hash_type'),
+            $this->config->get('api.key')
+        );
     }
 
     /**
