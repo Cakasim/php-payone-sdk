@@ -17,8 +17,9 @@ trait SequenceNumber
      */
     public function getSequenceNumber(): ?int
     {
-        return isset($this->parameters['sequencenumber'])
-            ? (int) $this->parameters['sequencenumber']
+        $sequenceNumber = $this->getParameter('sequencenumber');
+        return $sequenceNumber !== null
+            ? (int) $sequenceNumber
             : null;
     }
 
@@ -30,7 +31,7 @@ trait SequenceNumber
      */
     public function setSequenceNumber(int $sequenceNumber): self
     {
-        $this->parameters['sequencenumber'] = (string) $sequenceNumber;
+        $this->setParameter('sequencenumber', (string) $sequenceNumber);
         return $this;
     }
 }

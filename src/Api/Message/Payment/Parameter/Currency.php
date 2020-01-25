@@ -17,7 +17,7 @@ trait Currency
      */
     public function getCurrency(): ?string
     {
-        return $this->parameters['currency'] ?? null;
+        return $this->getParameter('currency');
     }
 
     /**
@@ -28,7 +28,7 @@ trait Currency
      */
     public function setCurrency(string $currency): self
     {
-        $this->parameters['currency'] = $currency;
+        $this->setParameter('currency', $currency);
         return $this;
     }
 }

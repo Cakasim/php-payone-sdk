@@ -24,7 +24,7 @@ class AuthorizationRequest extends Request implements AuthorizationRequestInterf
      */
     public function getSubAccountId(): ?string
     {
-        return $this->parameters['aid'] ?? null;
+        return $this->getParameter('aid');
     }
 
     /**
@@ -32,7 +32,7 @@ class AuthorizationRequest extends Request implements AuthorizationRequestInterf
      */
     public function getClearingType(): ?string
     {
-        return $this->parameters['clearingtype'] ?? null;
+        return $this->getParameter('clearingtype');
     }
 
     /**
@@ -40,7 +40,7 @@ class AuthorizationRequest extends Request implements AuthorizationRequestInterf
      */
     public function getReference(): ?string
     {
-        return $this->parameters['reference'] ?? null;
+        return $this->getParameter('reference');
     }
 
     /**
@@ -51,7 +51,7 @@ class AuthorizationRequest extends Request implements AuthorizationRequestInterf
      */
     public function setReference(string $reference): self
     {
-        $this->parameters['reference'] = $reference;
+        $this->setParameter('reference', $reference);
         return $this;
     }
 }

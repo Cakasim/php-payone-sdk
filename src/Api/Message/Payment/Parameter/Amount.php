@@ -17,8 +17,9 @@ trait Amount
      */
     public function getAmount(): ?int
     {
-        return isset($this->parameters['amount'])
-            ? (int) $this->parameters['amount']
+        $amount = $this->getParameter('amount');
+        return $amount !== null
+            ? (int) $amount
             : null;
     }
 
@@ -30,7 +31,7 @@ trait Amount
      */
     public function setAmount(int $amount): self
     {
-        $this->parameters['amount'] = (string) $amount;
+        $this->setParameter('amount', (string) $amount);
         return $this;
     }
 }

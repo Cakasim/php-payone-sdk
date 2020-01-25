@@ -18,6 +18,28 @@ abstract class AbstractMessage implements MessageInterface
     protected $parameters = [];
 
     /**
+     * Returns the value of a parameter.
+     *
+     * @param string $name The parameter name.
+     * @return string|null The parameter value or null if no such parameter exists.
+     */
+    protected function getParameter(string $name): ?string
+    {
+        return $this->parameters[$name] ?? null;
+    }
+
+    /**
+     * Sets the value of a parameter.
+     *
+     * @param string $name The parameter name.
+     * @param string $value The parameter value.
+     */
+    protected function setParameter(string $name, string $value): void
+    {
+        $this->parameters[$name] = $value;
+    }
+
+    /**
      * Generates a representation of the current state for serializing.
      *
      * @return array A serializable representation of the current state.

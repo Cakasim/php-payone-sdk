@@ -17,7 +17,7 @@ trait TransactionId
      */
     public function getTransactionId(): ?string
     {
-        return $this->parameters['txid'] ?? null;
+        return $this->getParameter('txid');
     }
 
     /**
@@ -28,7 +28,7 @@ trait TransactionId
      */
     public function setTransactionId(string $transactionId): self
     {
-        $this->parameters['txid'] = $transactionId;
+        $this->setParameter('txid', $transactionId);
         return $this;
     }
 }

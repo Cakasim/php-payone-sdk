@@ -27,7 +27,7 @@ class Request extends AbstractMessage implements RequestInterface
      */
     public function getMerchantId(): ?string
     {
-        return $this->parameters['mid'] ?? null;
+        return $this->getParameter('mid');
     }
 
     /**
@@ -35,7 +35,7 @@ class Request extends AbstractMessage implements RequestInterface
      */
     public function getPortalId(): ?string
     {
-        return $this->parameters['portalid'] ?? null;
+        return $this->getParameter('portalid');
     }
 
     /**
@@ -43,7 +43,7 @@ class Request extends AbstractMessage implements RequestInterface
      */
     public function getApiVersion(): ?string
     {
-        return $this->parameters['api_version'] ?? null;
+        return $this->getParameter('api_version');
     }
 
     /**
@@ -51,7 +51,7 @@ class Request extends AbstractMessage implements RequestInterface
      */
     public function getMode(): ?string
     {
-        return $this->parameters['mode'] ?? null;
+        return $this->getParameter('mode');
     }
 
     /**

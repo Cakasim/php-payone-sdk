@@ -19,7 +19,7 @@ class Response extends AbstractMessage implements ResponseInterface
      */
     public function getStatus(): ?string
     {
-        return $this->parameters['status'] ?? null;
+        return $this->getParameter('status');
     }
 
     /**
