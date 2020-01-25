@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Message\Payment;
 
+use Cakasim\Payone\Sdk\Api\Message\Parameter\SubAccountIdAwareInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
 
 /**
@@ -12,7 +13,7 @@ use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
  * @author Fabian Böttcher <me@cakasim.de>
  * @since 0.1.0
  */
-interface AuthorizationRequestInterface extends RequestInterface
+interface AuthorizationRequestInterface extends RequestInterface, SubAccountIdAwareInterface
 {
     /**
      * Returns the sub account ID.
