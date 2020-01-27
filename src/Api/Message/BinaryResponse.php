@@ -14,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
  * @author Fabian Böttcher <me@cakasim.de>
  * @since 0.1.0
  */
-class BinaryResponse implements ResponseInterface
+class BinaryResponse implements BinaryResponseInterface
 {
     /**
      * @var StreamInterface|null
