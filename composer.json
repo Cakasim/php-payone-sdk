@@ -26,6 +26,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.1",
+        "ext-json": "*",
         "psr/http-message": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
