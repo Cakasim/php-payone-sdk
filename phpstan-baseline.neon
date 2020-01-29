@@ -11,6 +11,11 @@ parameters:
 			path: src\Api\Message\BinaryResponse.php
 
 		-
+			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Api\\\\Message\\\\JsonResponse\\:\\:unserialize\\(\\) has parameter \\$serialized with no typehint specified\\.$#"
+			count: 1
+			path: src\Api\Message\JsonResponse.php
+
+		-
 			message: "#^Parameter \\#1 \\$name of class ReflectionFunction constructor expects Closure\\|string, callable\\(\\)\\: mixed given\\.$#"
 			count: 1
 			path: src\Container\Binding\CallableBinding.php

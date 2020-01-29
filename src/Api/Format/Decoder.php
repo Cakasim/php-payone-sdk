@@ -31,6 +31,8 @@ class Decoder implements DecoderInterface
             if (strpos($line, '=') > 0) {
                 $line = explode('=', $line, 2);
                 $lines[] = "{$line[0]}=" . rawurlencode($line[1]);
+            } elseif (!empty($line)) {
+                throw new DecoderException("Failed decoding of data.");
             }
         }
 

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Client;
 
-use Cakasim\Payone\Sdk\Api\Format\DecoderExceptionInterface;
+use Cakasim\Payone\Sdk\Api\Client\ResponseHelper\BinaryResponseHelper;
+use Cakasim\Payone\Sdk\Api\Client\ResponseHelper\DefaultResponseHelper;
+use Cakasim\Payone\Sdk\Api\Client\ResponseHelper\JsonResponseHelper;
+use Cakasim\Payone\Sdk\Api\Client\ResponseHelper\ResponseHelperInterface;
 use Cakasim\Payone\Sdk\Api\Format\DecoderInterface;
 use Cakasim\Payone\Sdk\Api\Format\EncoderExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Format\EncoderInterface;
@@ -54,6 +57,11 @@ class Client implements ClientInterface
     protected $decoder;
 
     /**
+     * @var ResponseHelperInterface[] The response helpers of this client.
+     */
+    protected $responseHelpers = [];
+
+    /**
      * Constructs the API client with dependencies.
      *
      * @param ConfigInterface $config The SDK config.
@@ -74,6 +82,12 @@ class Client implements ClientInterface
         $this->httpRequestFactory = $httpRequestFactory;
         $this->encoder = $encoder;
         $this->decoder = $decoder;
+
+        $this->responseHelpers = [
+            new JsonResponseHelper(),
+            new BinaryResponseHelper($this->decoder),
+            new DefaultResponseHelper($this->decoder),
+        ];
     }
 
     /**
@@ -121,10 +135,31 @@ class Client implements ClientInterface
     }
 
     /**
+     * Chooses the proper response helper for the provided API response.
+     *
+     * @param ResponseInterface $response The API response.
+     * @return ResponseHelperInterface The chosen response helper.
+     * @throws ClientException If no proper response handler could be chosen.
+     */
+    protected function chooseResponseHelper(ResponseInterface $response): ResponseHelperInterface
+    {
+        foreach ($this->responseHelpers as $responseHelper) {
+            if ($responseHelper->isResponsible($response)) {
+                return $responseHelper;
+            }
+        }
+
+        throw new ClientException("Cannot choose proper response helper.");
+    }
+
+    /**
      * @inheritDoc
      */
     public function sendRequest(RequestInterface $request, ResponseInterface $response): void
     {
+        // Get proper response helper for provided API response.
+        $responseHelper = $this->chooseResponseHelper($response);
+
         // Applies the general request parameters.
         $this->applyGeneralRequestParameters($request);
 
@@ -134,20 +169,16 @@ class Client implements ClientInterface
         // Create ready-to-send HTTP request from parameter array.
         $httpRequest = $this->createHttpRequest($requestParameters);
 
+        // Apply any response helper HTTP request modifications.
+        $httpRequest = $responseHelper->modifyHttpRequest($httpRequest);
+
         // Send the HTTP request to PAYONE.
         $httpResponse = $this->sendHttpRequest($httpRequest);
 
-        $responseData = $this->readParametersFromHttpResponse($httpResponse);
+        // Make the response data from the HTTP response.
+        $responseData = $responseHelper->makeResponseData($httpResponse);
 
-        if ($responseData) {
-            // Check if response parameters represent an API error.
-            $this->checkForErrorResponse($responseData);
-        } else {
-            // Use raw response body if no response parameters could be read.
-            $responseData = $httpResponse->getBody();
-        }
-
-        // Delegate further parsing to provided API response.
+        // Delegate further response data parsing to the provided API response.
         $response->parseResponseData($responseData);
     }
 
@@ -214,53 +245,6 @@ class Client implements ClientInterface
             return $this->httpClient->sendRequest($request);
         } catch (HttpClientExceptionInterface $e) {
             throw new ClientException("Failed to send API request.", 0, $e);
-        }
-    }
-
-    /**
-     * Reads the API response parameters if possible.
-     *
-     * @param HttpResponseInterface $response The HTTP response to read the parameters from.
-     * @return array|null The response parameters or null if no parameters can be read.
-     * @throws ClientException If reading the response parameters fails.
-     */
-    protected function readParametersFromHttpResponse(HttpResponseInterface $response): ?array
-    {
-        // Ensure text/plain content type which indicates a parameter response.
-        if (stristr($response->getHeaderLine('Content-Type'), 'text/plain') === false) {
-            return null;
-        }
-
-        // Get whole body contents of the response.
-        $bodyContents = $response->getBody()->getContents();
-
-        // Expect a non-empty response body.
-        if (empty($bodyContents)) {
-            throw new ClientException("Cannot read response parameters. The response body is empty.");
-        }
-
-        try {
-            // Decode response body to parameter array.
-            return $this->decoder->decode($bodyContents);
-        } catch (DecoderExceptionInterface $e) {
-            throw new ClientException("Cannot read response parameters. Failed decoding the response body.", 0, $e);
-        }
-    }
-
-    /**
-     * Checks for PAYONE API error.
-     *
-     * @param array $parameters The response parameters to check.
-     * @throws ErrorResponseException If the response parameters represent a PAYONE API error.
-     */
-    protected function checkForErrorResponse(array $parameters): void
-    {
-        if (($parameters['status'] ?? 'ERROR') === 'ERROR') {
-            throw new ErrorResponseException(
-                (int) ($parameters['errorcode'] ?? 0),
-                $parameters['errormessage'] ?? '',
-                $parameters['customermessage'] ?? ''
-            );
         }
     }
 }
