@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cakasim\Payone\Sdk\Api\Client\ResponseHelper;
 
+use Cakasim\Payone\Sdk\Api\Client\ClientExceptionInterface;
+use Cakasim\Payone\Sdk\Api\Client\ErrorResponseExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface as HttpRequestInterface;
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
@@ -38,6 +40,8 @@ interface ResponseHelperInterface
      *
      * @param HttpResponseInterface $response The HTTP response.
      * @return mixed The API response data.
+     * @throws ClientExceptionInterface If no response data can be made.
+     * @throws ErrorResponseExceptionInterface If the response is a PAYONE API error response.
      */
     public function makeResponseData(HttpResponseInterface $response);
 }
