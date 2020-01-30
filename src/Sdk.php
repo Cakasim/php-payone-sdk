@@ -9,6 +9,7 @@ use Cakasim\Payone\Sdk\Container\ContainerException;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
 use Cakasim\Payone\Sdk\Log\Service as LogService;
 use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
+use Cakasim\Payone\Sdk\Redirect\Service as RedirectService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
@@ -91,5 +92,16 @@ class Sdk
     public function getNotificationService(): NotificationService
     {
         return $this->container->get(NotificationService::class);
+    }
+
+    /**
+     * Returns the redirect service.
+     *
+     * @return RedirectService The redirect service.
+     * @throws ContainerExceptionInterface If the redirect service cannot be resolved.
+     */
+    public function getRedirectService(): RedirectService
+    {
+        return $this->container->get(RedirectService::class);
     }
 }

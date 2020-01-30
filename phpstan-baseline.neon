@@ -62,6 +62,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @throws with type Psr\\\\Container\\\\ContainerExceptionInterface is not subtype of Throwable$#"
-			count: 4
+			count: 5
 			path: src\Sdk.php
 
