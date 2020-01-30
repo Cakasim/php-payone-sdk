@@ -70,9 +70,9 @@ class Request extends AbstractMessage implements RequestInterface
     /**
      * @inheritDoc
      */
-    public function applyGeneralParameters(array $parameters): void
+    public function applyParameters(array $parameters): void
     {
-        // Merge request parameters with general parameters.
+        // Merge request parameters with provided parameters.
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 

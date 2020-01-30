@@ -41,11 +41,11 @@ interface RequestInterface extends MessageInterface
     public function getMode(): ?string;
 
     /**
-     * Applies the general parameters for this request.
+     * Applies the provided parameters for this request.
      *
-     * @param array $parameters The general request parameters.
+     * @param array $parameters The request parameters.
      */
-    public function applyGeneralParameters(array $parameters): void;
+    public function applyParameters(array $parameters): void;
 
     /**
      * Makes the parameter array from the request message.

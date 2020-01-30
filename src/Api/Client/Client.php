@@ -192,7 +192,7 @@ class Client implements ClientInterface
     {
         try {
             // Apply general parameters to the request.
-            $request->applyGeneralParameters($this->makeGeneralRequestParameters($request));
+            $request->applyParameters($this->makeGeneralRequestParameters($request));
         } catch (ConfigExceptionInterface $e) {
             throw new ClientException("Cannot apply general request parameters.", 0, $e);
         }
