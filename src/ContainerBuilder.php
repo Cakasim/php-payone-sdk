@@ -68,6 +68,9 @@ class ContainerBuilder
         // Notification
         \Cakasim\Payone\Sdk\Notification\Processor\ProcessorInterface::class    => [\Cakasim\Payone\Sdk\Notification\Processor\Processor::class, true],
         \Cakasim\Payone\Sdk\Notification\Handler\HandlerManagerInterface::class => [\Cakasim\Payone\Sdk\Notification\Handler\HandlerManager::class, true],
+
+        // Redirect
+        \Cakasim\Payone\Sdk\Redirect\Token\TokenFactoryInterface::class => [\Cakasim\Payone\Sdk\Redirect\Token\TokenFactory::class, true],
     ];
 
     /**
