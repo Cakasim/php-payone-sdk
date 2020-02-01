@@ -72,6 +72,7 @@ class ContainerBuilder
         // Redirect
         \Cakasim\Payone\Sdk\Redirect\Token\TokenFactoryInterface::class   => [\Cakasim\Payone\Sdk\Redirect\Token\TokenFactory::class, true],
         \Cakasim\Payone\Sdk\Redirect\Token\Format\EncoderInterface::class => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Encoder::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\DecoderInterface::class => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Decoder::class, true],
         \Cakasim\Payone\Sdk\Redirect\Token\Format\SignerInterface::class  => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Signer::class, true],
     ];
 
