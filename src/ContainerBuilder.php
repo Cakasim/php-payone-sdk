@@ -70,8 +70,9 @@ class ContainerBuilder
         \Cakasim\Payone\Sdk\Notification\Handler\HandlerManagerInterface::class => [\Cakasim\Payone\Sdk\Notification\Handler\HandlerManager::class, true],
 
         // Redirect
-        \Cakasim\Payone\Sdk\Redirect\Token\TokenFactoryInterface::class  => [\Cakasim\Payone\Sdk\Redirect\Token\TokenFactory::class, true],
-        \Cakasim\Payone\Sdk\Redirect\Token\Format\SignerInterface::class => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Signer::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\TokenFactoryInterface::class   => [\Cakasim\Payone\Sdk\Redirect\Token\TokenFactory::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\EncoderInterface::class => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Encoder::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\SignerInterface::class  => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Signer::class, true],
     ];
 
     /**
