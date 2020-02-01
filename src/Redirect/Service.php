@@ -9,6 +9,10 @@ use Cakasim\Payone\Sdk\Api\Message\Parameter\BackUrlAwareInterface;
 use Cakasim\Payone\Sdk\Api\Message\Parameter\ErrorUrlAwareInterface;
 use Cakasim\Payone\Sdk\Api\Message\Parameter\SuccessUrlAwareInterface;
 use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
+use Cakasim\Payone\Sdk\Redirect\Handler\HandlerInterface;
+use Cakasim\Payone\Sdk\Redirect\Handler\HandlerManagerInterface;
+use Cakasim\Payone\Sdk\Redirect\Processor\ProcessorExceptionInterface;
+use Cakasim\Payone\Sdk\Redirect\Processor\ProcessorInterface;
 use Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGeneratorExceptionInterface;
 use Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGeneratorInterface;
 use Psr\Container\ContainerInterface;
@@ -27,17 +31,33 @@ class Service extends AbstractService
     protected $urlGenerator;
 
     /**
+     * @var HandlerManagerInterface The redirect handler manager.
+     */
+    protected $handlerManager;
+
+    /**
+     * @var ProcessorInterface The redirect processor.
+     */
+    protected $processor;
+
+    /**
      * Constructs the redirect service.
      *
      * @param UrlGeneratorInterface $urlGenerator The redirect URL generator.
+     * @param HandlerManagerInterface $handlerManager The redirect handler manager.
+     * @param ProcessorInterface $processor The redirect processor.
      * @inheritDoc
      */
     public function __construct(
         ContainerInterface $container,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        ProcessorInterface $processor,
+        HandlerManagerInterface $handlerManager
     ) {
         parent::__construct($container);
         $this->urlGenerator = $urlGenerator;
+        $this->processor = $processor;
+        $this->handlerManager = $handlerManager;
     }
 
     /**
@@ -75,5 +95,26 @@ class Service extends AbstractService
         }
 
         $request->applyParameters($parameters);
+    }
+
+    /**
+     * Processes an inbound redirect.
+     *
+     * @param string $token The encoded redirect token.
+     * @throws ProcessorExceptionInterface If redirect processing fails.
+     */
+    public function processRedirect(string $token): void
+    {
+        $this->processor->processRedirect($token);
+    }
+
+    /**
+     * Registers a redirect handler.
+     *
+     * @param HandlerInterface $handler The handler to register.
+     */
+    public function registerHandler(HandlerInterface $handler): void
+    {
+        $this->handlerManager->registerHandler($handler);
     }
 }
