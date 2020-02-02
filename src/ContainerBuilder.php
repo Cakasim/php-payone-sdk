@@ -23,6 +23,7 @@ class ContainerBuilder
         \Cakasim\Payone\Sdk\Http\Service::class,
         \Cakasim\Payone\Sdk\Api\Service::class,
         \Cakasim\Payone\Sdk\Notification\Service::class,
+        \Cakasim\Payone\Sdk\Redirect\Service::class,
     ];
 
     /**
@@ -67,6 +68,15 @@ class ContainerBuilder
         // Notification
         \Cakasim\Payone\Sdk\Notification\Processor\ProcessorInterface::class    => [\Cakasim\Payone\Sdk\Notification\Processor\Processor::class, true],
         \Cakasim\Payone\Sdk\Notification\Handler\HandlerManagerInterface::class => [\Cakasim\Payone\Sdk\Notification\Handler\HandlerManager::class, true],
+
+        // Redirect
+        \Cakasim\Payone\Sdk\Redirect\Token\TokenFactoryInterface::class        => [\Cakasim\Payone\Sdk\Redirect\Token\TokenFactory::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\EncoderInterface::class      => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Encoder::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\DecoderInterface::class      => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Decoder::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\SignerInterface::class       => [\Cakasim\Payone\Sdk\Redirect\Token\Format\Signer::class, true],
+        \Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGeneratorInterface::class => [\Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGenerator::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Handler\HandlerManagerInterface::class    => [\Cakasim\Payone\Sdk\Redirect\Handler\HandlerManager::class, true],
+        \Cakasim\Payone\Sdk\Redirect\Processor\ProcessorInterface::class       => [\Cakasim\Payone\Sdk\Redirect\Processor\Processor::class, true],
     ];
 
     /**
