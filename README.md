@@ -21,6 +21,7 @@ but has aged and direct use may be uncomfortable.
  - Flexible design and extendable structure for tailored solutions
  - Simple yet powerful use of the [PAYONE Server API](https://docs.payone.com/display/public/PLATFORM/Channel+Server+API)
  - Automatic processing of [PAYONE Notifications](https://docs.payone.com/pages/releaseview.action?pageId=1213962)
+ - Secure redirect URL generation with state data payload for redirect payments
 
 ### Requirements
 
@@ -106,7 +107,7 @@ contains the `Sdk` instance.*
 ### Configure the SDK
 
 The SDK requires some configuration parameters. These parameters
-are provided by a Config class. The following example shows how
+are provided via the `Config` class. The following example shows how
 the configuration can be done.
 
 ```php
@@ -116,7 +117,9 @@ $config = $sdk->getContainer()->get(ConfigInterface::class);
 // Your API credentials
 $config->set('api.merchant_id', 'your_merchant_id');
 $config->set('api.portal_id', 'your_portal_id');
-$config->set('api.key_hash', 'hash_of_your_api_key');
+$config->set('api.sub_account_id', 'your_sub_account_id');
+$config->set('api.key', 'your_api_key');
+$config->set('api.key_hash_type', 'md5');
 
 // General API config options
 $config->set('api.mode', 'test');
@@ -131,6 +134,18 @@ $config->set('notification.sender_address_whitelist', [
     '213.178.72.197',
     '217.70.200.0/24',
 ]);
+
+// The redirect URL template, $token will be replaced by the actual token value.
+$config->set('redirect.url', 'https://example.com/redirect/$token');
+
+// Token lifetime in seconds
+$config->set('redirect.token_lifetime', 3600);
+
+// Redirect token security settings
+$config->set('redirect.token_encryption_method', 'aes-256-ctr');
+$config->set('redirect.token_encryption_key', 'your_secret_encryption_key');
+$config->set('redirect.token_signing_algo', 'sha256');
+$config->set('redirect.token_signing_key', 'your_secret_signing_key');
 ```
 
 ### Sending API Requests
