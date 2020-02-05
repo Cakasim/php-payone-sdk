@@ -1,0 +1,29 @@
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+    backupGlobals="true"
+    backupStaticAttributes="true"
+    bootstrap="vendor/autoload.php"
+    cacheResultFile="build/cache/phpunit.cache"
+    cacheTokens="true"
+    colors="true"
+    forceCoversAnnotation="false"
+    failOnRisky="true"
+    failOnWarning="true"
+    beStrictAboutChangesToGlobalState="true"
+    defaultTestSuite="Default"
+    verbose="true"
+    testdox="true"
+>
+    <testsuites>
+        <testsuite name="Default">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory>src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,50 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        php: ['7.2', '7.3', '7.4']
+
+    name: ${{ matrix.os }} with PHP ${{ matrix.php }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xdebug
+
+      - name: Download PHP-CS-Fixer
+        run: |
+          composer download-phpcsf
+          chmod +x vendor/bin/phpcsf
+          vendor/bin/phpcsf --version
+
+      - name: Download PHPStan
+        run: |
+          composer download-phpstan
+          chmod +x vendor/bin/phpstan
+          vendor/bin/phpstan --version
+
+      - name: Download PHPUnit
+        run: |
+          composer download-phpunit
+          chmod +x vendor/bin/phpunit
+          vendor/bin/phpunit --version
+
+      - name: Composer Install
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Coding Style Checks
+        run: vendor/bin/phpcsf -v fix --dry-run --allow-risky=yes
+
+      - name: Run Static Code Analysis
+        run: vendor/bin/phpstan analyse
+
+      - name: Run Tests
+        run: vendor/bin/phpunit

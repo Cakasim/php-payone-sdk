@@ -1,0 +1,30 @@
+os: linux
+language: php
+php:
+  - '7.2'
+  - '7.3'
+  - '7.4'
+  - nightly
+
+jobs:
+  allow_failures:
+    - php: nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - composer install --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
+
+before_script:
+  - composer download-phpunit
+  - chmod +x vendor/bin/phpunit
+
+script:
+  - vendor/bin/phpunit --coverage-clover clover.xml
+
+after_success:
+  - curl --silent -L https://github.com/php-coveralls/php-coveralls/releases/download/v2.2.0/php-coveralls.phar --create-dirs --output vendor/bin/coveralls
+  - chmod +x vendor/bin/coveralls
+  - vendor/bin/coveralls --coverage_clover clover.xml --json_path coveralls-upload.json

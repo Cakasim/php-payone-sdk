@@ -25,12 +25,41 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-gmp": "*",
+        "psr/http-message": "^1.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/log": "^1.1",
+        "psr/container": "^1.0"
     },
     "autoload": {
-        "Cakasim\\Payone\\Sdk\\": "src/"
+        "psr-4": {
+            "Cakasim\\Payone\\Sdk\\": "src/"
+        }
     },
-    "suggest": {
-        "ext-curl": "Required in order to use the cURL HTTP driver."
+    "autoload-dev": {
+        "psr-4": {
+            "Cakasim\\Payone\\Sdk\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {},
+    "scripts": {
+        "download-phpcsf": "curl --silent -L https://cs.symfony.com/download/php-cs-fixer-v2.phar --create-dirs --output vendor/bin/phpcsf",
+        "download-phpstan": "curl --silent -L https://github.com/phpstan/phpstan/releases/download/0.12.5/phpstan.phar --create-dirs --output vendor/bin/phpstan",
+        "download-phpunit": "curl --silent -L https://phar.phpunit.de/phpunit-8.phar --create-dirs --output vendor/bin/phpunit",
+        "phpcsf": "php vendor/bin/phpcsf -v fix --dry-run --allow-risky=yes",
+        "phpstan": "php vendor/bin/phpstan analyse",
+        "phpunit": "php vendor/bin/phpunit"
+    },
+    "scripts-descriptions": {
+        "download-phpcsf": "Downloads PHP Coding Standards Fixer and saves it to vendor/bin/phpcsf.",
+        "download-phpstan": "Downloads PHP Coding Standards Fixer and saves it to vendor/bin/phpcsf.",
+        "download-phpunit": "Downloads PHPUnit 8 and saves it to vendor/bin/phpunit.",
+        "phpcsf": "Runs PHP Coding Standards Fixer to identify coding style issues.",
+        "phpstan": "Runs static code analysis to detect possible errors / bugs.",
+        "phpunit": "Runs the tests."
     }
 }
