@@ -8,6 +8,11 @@ NEXT
 
  - **[BREAKING]** Removed `Cakasim\Payone\Sdk\Api\Service::getClient()`
  - Added new proxy method `Cakasim\Payone\Sdk\Api\Service::sendRequest()`
+ - **[BREAKING]** Removed `getUriFactory()`, `getStreamFactory()`,
+   `getRequestFactory()`, `getResponseFactory()` and `getClient()` from
+   `Cakasim\Payone\Sdk\Http\Service` class
+ - Added new method `Cakasim\Payone\Sdk\Http\Service::createServerRequest()`
+   that creates a PSR-7 server request from the current environment.
 
 0.1.0
 -----
