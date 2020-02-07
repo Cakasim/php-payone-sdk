@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk\Api;
 
 use Cakasim\Payone\Sdk\AbstractService;
+use Cakasim\Payone\Sdk\Api\Client\ClientExceptionInterface;
 use Cakasim\Payone\Sdk\Api\Client\ClientInterface;
+use Cakasim\Payone\Sdk\Api\Client\ErrorResponseExceptionInterface;
+use Cakasim\Payone\Sdk\Api\Message\RequestInterface;
+use Cakasim\Payone\Sdk\Api\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -36,12 +40,16 @@ class Service extends AbstractService
     }
 
     /**
-     * Returns the API client.
+     * Sends the provided request message and populates
+     * the provided response message with the API response.
      *
-     * @return ClientInterface The API client.
+     * @param RequestInterface $request The request message to send.
+     * @param ResponseInterface $response The response message to populate with the API response.
+     * @throws ClientExceptionInterface If sending fails.
+     * @throws ErrorResponseExceptionInterface If the response is a PAYONE API error.
      */
-    public function getClient(): ClientInterface
+    public function sendRequest(RequestInterface $request, ResponseInterface $response): void
     {
-        return $this->client;
+        $this->client->sendRequest($request, $response);
     }
 }

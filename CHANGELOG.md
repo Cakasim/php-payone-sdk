@@ -1,8 +1,16 @@
 Changelog
 =========
 
+NEXT
+----
+
+### Changes
+
+ - **[BREAKING]** Removed `Cakasim\Payone\Sdk\Api\Service::getClient()`
+ - Added new proxy method `Cakasim\Payone\Sdk\Api\Service::sendRequest()`
+
 0.1.0
--------------------------------
+-----
 **_Development Release / 2020-02-05_**
 
 _This is the initial release of the project. Please use this release with caution.
