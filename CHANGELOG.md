@@ -13,6 +13,12 @@ NEXT
    `Cakasim\Payone\Sdk\Http\Service` class
  - Added new method `Cakasim\Payone\Sdk\Http\Service::createServerRequest()`
    that creates a PSR-7 server request from the current environment.
+ - The `Cakasim\Payone\Sdk\Config\Config` class now comes with a default
+   configuration that is automatically applied. The following parameters
+   have default values: `api.endpoint`, `api.key_hash_type`, `api.mode`,
+   `notification.sender_address_whitelist`, `redirect.token_lifetime`,
+   `redirect.token_encryption_method` and `redirect.token_signing_algo`
+   [[#22](https://github.com/Cakasim/php-payone-sdk/issues/22)]
 
 0.1.0
 -----
