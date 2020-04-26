@@ -35,6 +35,10 @@
         "psr/log": "^1.1",
         "psr/container": "^1.0"
     },
+    "require-dev": {},
+    "suggest": {
+        "cakasim/payone-sdk-http-message": "Provides the default HTTP message implementation."
+    },
     "autoload": {
         "psr-4": {
             "Cakasim\\Payone\\Sdk\\": "src/"
@@ -45,7 +49,6 @@
             "Cakasim\\Payone\\Sdk\\Tests\\": "tests/"
         }
     },
-    "require-dev": {},
     "scripts": {
         "download-phpcsf": "curl --silent -L https://cs.symfony.com/download/php-cs-fixer-v2.phar --create-dirs --output vendor/bin/phpcsf",
         "download-phpstan": "curl --silent -L https://github.com/phpstan/phpstan/releases/download/0.12.5/phpstan.phar --create-dirs --output vendor/bin/phpstan",

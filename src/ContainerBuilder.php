@@ -16,9 +16,40 @@ use Cakasim\Payone\Sdk\Container\ContainerException;
 class ContainerBuilder
 {
     /**
-     * The SDK services.
+     * A list of all required bindings.
      */
-    protected const SERVICES = [
+    protected const REQUIRED_BINDINGS = [
+        \Psr\Log\LoggerInterface::class,
+        \Psr\Http\Message\UriFactoryInterface::class,
+        \Psr\Http\Message\StreamFactoryInterface::class,
+        \Psr\Http\Message\RequestFactoryInterface::class,
+        \Psr\Http\Message\ResponseFactoryInterface::class,
+        \Psr\Http\Message\ServerRequestFactoryInterface::class,
+        \Psr\Http\Client\ClientInterface::class,
+        \Cakasim\Payone\Sdk\Log\Service::class,
+        \Cakasim\Payone\Sdk\Http\Service::class,
+        \Cakasim\Payone\Sdk\Api\Service::class,
+        \Cakasim\Payone\Sdk\Notification\Service::class,
+        \Cakasim\Payone\Sdk\Redirect\Service::class,
+        \Cakasim\Payone\Sdk\Config\ConfigInterface::class,
+        \Cakasim\Payone\Sdk\Api\Format\EncoderInterface::class,
+        \Cakasim\Payone\Sdk\Api\Format\DecoderInterface::class,
+        \Cakasim\Payone\Sdk\Api\Client\ClientInterface::class,
+        \Cakasim\Payone\Sdk\Notification\Processor\ProcessorInterface::class,
+        \Cakasim\Payone\Sdk\Notification\Handler\HandlerManagerInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\Token\TokenFactoryInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\EncoderInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\DecoderInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\Token\Format\SignerInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGeneratorInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\Handler\HandlerManagerInterface::class,
+        \Cakasim\Payone\Sdk\Redirect\Processor\ProcessorInterface::class,
+    ];
+
+    /**
+     * The SDK service bindings.
+     */
+    protected const SERVICE_BINDINGS = [
         \Cakasim\Payone\Sdk\Log\Service::class,
         \Cakasim\Payone\Sdk\Http\Service::class,
         \Cakasim\Payone\Sdk\Api\Service::class,
@@ -27,7 +58,7 @@ class ContainerBuilder
     ];
 
     /**
-     * The default dependencies of the SDK.
+     * The default bindings of the SDK.
      */
     protected const DEFAULT_BINDINGS = [
 
@@ -42,13 +73,6 @@ class ContainerBuilder
 
         // PSR-11
         // Container binds itself within the container constructor.
-
-        // PSR-17
-        \Psr\Http\Message\UriFactoryInterface::class           => [\Cakasim\Payone\Sdk\Http\Factory\UriFactory::class, true],
-        \Psr\Http\Message\StreamFactoryInterface::class        => [\Cakasim\Payone\Sdk\Http\Factory\StreamFactory::class, true],
-        \Psr\Http\Message\RequestFactoryInterface::class       => [\Cakasim\Payone\Sdk\Http\Factory\RequestFactory::class, true],
-        \Psr\Http\Message\ResponseFactoryInterface::class      => [\Cakasim\Payone\Sdk\Http\Factory\ResponseFactory::class, true],
-        \Psr\Http\Message\ServerRequestFactoryInterface::class => [\Cakasim\Payone\Sdk\Http\Factory\ServerRequestFactory::class, true],
 
         // PSR-18
         \Psr\Http\Client\ClientInterface::class => [\Cakasim\Payone\Sdk\Http\Client\StreamClient::class, true],
@@ -80,9 +104,61 @@ class ContainerBuilder
     ];
 
     /**
+     * A list of external bindings.
+     */
+    protected const EXTERNAL_BINDINGS = [
+        // PSR-17 bindings, from cakasim/payone-sdk-http-message package
+        \Psr\Http\Message\UriFactoryInterface::class           => ['Cakasim\Payone\Sdk\Http\Factory\UriFactory', true],
+        \Psr\Http\Message\StreamFactoryInterface::class        => ['Cakasim\Payone\Sdk\Http\Factory\StreamFactory', true],
+        \Psr\Http\Message\RequestFactoryInterface::class       => ['Cakasim\Payone\Sdk\Http\Factory\RequestFactory', true],
+        \Psr\Http\Message\ResponseFactoryInterface::class      => ['Cakasim\Payone\Sdk\Http\Factory\ResponseFactory', true],
+        \Psr\Http\Message\ServerRequestFactoryInterface::class => ['Cakasim\Payone\Sdk\Http\Factory\ServerRequestFactory', true],
+    ];
+
+    /**
      * @var Container The container.
      */
     protected $container;
+
+    /**
+     * Returns a list of bindings that are required for the SDk to work.
+     *
+     * @return array List of required bindings.
+     */
+    protected static function getRequiredBindings(): array
+    {
+        return static::REQUIRED_BINDINGS;
+    }
+
+    /**
+     * Returns a list of SDK service bindings.
+     *
+     * @return array List of SDK service bindings.
+     */
+    protected static function getServiceBindings(): array
+    {
+        return static::SERVICE_BINDINGS;
+    }
+
+    /**
+     * Returns a list of default bindings.
+     *
+     * @return array List of default bindings.
+     */
+    protected static function getDefaultBindings(): array
+    {
+        return static::DEFAULT_BINDINGS;
+    }
+
+    /**
+     * Returns a list of external bindings.
+     *
+     * @return array List of external bindings.
+     */
+    protected static function getExternalBindings(): array
+    {
+        return static::EXTERNAL_BINDINGS;
+    }
 
     /**
      * Constructs the ContainerBuilder.
@@ -112,21 +188,47 @@ class ContainerBuilder
      */
     protected function bindServices(): void
     {
-        foreach (static::SERVICES as $service) {
+        foreach (static::getServiceBindings() as $service) {
             $this->container->bind($service, null, true);
         }
     }
 
     /**
-     * Binds default SDK dependencies for entries that.
+     * Binds default SDK dependencies.
      *
      * @throws ContainerException
      */
     protected function bindDefaults(): void
     {
-        foreach (static::DEFAULT_BINDINGS as $id => $binding) {
+        foreach (static::getDefaultBindings() as $id => $binding) {
             if (!$this->container->has($id)) {
                 $this->container->bind($id, $binding[0], $binding[1]);
+            }
+        }
+    }
+
+    /**
+     * Binds external SDK dependencies.
+     *
+     * @throws ContainerException
+     */
+    protected function bindExternal(): void
+    {
+        foreach (static::getExternalBindings() as $id => $binding) {
+            if (!$this->container->has($id) && class_exists($binding[0])) {
+                $this->container->bind($id, $binding[0], $binding[1]);
+            }
+        }
+    }
+
+    /**
+     * Verifies that the container holds all required bindings.
+     */
+    protected function verifyRequiredBindings(): void
+    {
+        foreach (static::getRequiredBindings() as $id) {
+            if (!$this->container->has($id)) {
+                throw new \RuntimeException("The SDK container is missing the following dependency: '{$id}'.");
             }
         }
     }
@@ -140,6 +242,8 @@ class ContainerBuilder
     public function buildContainer(): Container
     {
         $this->bindDefaults();
+        $this->bindExternal();
+        $this->verifyRequiredBindings();
         return $this->container;
     }
 

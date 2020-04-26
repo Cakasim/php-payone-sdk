@@ -16,6 +16,7 @@ cache:
 
 install:
   - composer install --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs
+  - composer require --prefer-dist --no-interaction --no-suggest --ignore-platform-reqs cakasim/payone-sdk-http-message:^0.1
 
 before_script:
   - composer download-phpunit
