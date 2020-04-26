@@ -96,9 +96,14 @@ class Encoder implements EncoderInterface
             throw new EncoderException("Failed token encoding, could not get length for initialization vector.");
         }
 
-        $iv = $length > 0
-            ? openssl_random_pseudo_bytes($length)
-            : '';
+        try {
+            $iv = $length > 0
+                ? random_bytes($length)
+                : '';
+        } catch (\Exception $e) {
+            throw new EncoderException("Failed token encoding, could not generate random initialization vector.");
+        }
+
 
         if (!is_string($iv)) {
             throw new EncoderException("Failed token encoding, could not make the initialization vector.");
