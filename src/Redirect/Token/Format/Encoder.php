@@ -104,10 +104,6 @@ class Encoder implements EncoderInterface
             throw new EncoderException("Failed token encoding, could not generate random initialization vector.");
         }
 
-        if (!is_string($iv)) {
-            throw new EncoderException("Failed token encoding, could not make the initialization vector.");
-        }
-
         return $iv;
     }
 
