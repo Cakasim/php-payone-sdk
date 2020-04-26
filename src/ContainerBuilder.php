@@ -74,9 +74,6 @@ class ContainerBuilder
         // PSR-11
         // Container binds itself within the container constructor.
 
-        // PSR-18
-        \Psr\Http\Client\ClientInterface::class => [\Cakasim\Payone\Sdk\Http\Client\StreamClient::class, true],
-
         // --- SDK Bindings ---
 
         // Config
@@ -113,6 +110,9 @@ class ContainerBuilder
         \Psr\Http\Message\RequestFactoryInterface::class       => ['Cakasim\Payone\Sdk\Http\Factory\RequestFactory', true],
         \Psr\Http\Message\ResponseFactoryInterface::class      => ['Cakasim\Payone\Sdk\Http\Factory\ResponseFactory', true],
         \Psr\Http\Message\ServerRequestFactoryInterface::class => ['Cakasim\Payone\Sdk\Http\Factory\ServerRequestFactory', true],
+
+        // PSR-18 bindings, from cakasim/payone-sdk-stream-client package
+        \Psr\Http\Client\ClientInterface::class => ['Cakasim\Payone\Sdk\Http\StreamClient\StreamClient', true],
     ];
 
     /**

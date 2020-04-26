@@ -36,7 +36,8 @@
     },
     "require-dev": {},
     "suggest": {
-        "cakasim/payone-sdk-http-message": "Provides the default HTTP message implementation."
+        "cakasim/payone-sdk-http-message": "Provides the default HTTP message implementation.",
+        "cakasim/payone-sdk-stream-client": "Provides the default HTTP client implementation."
     },
     "autoload": {
         "psr-4": {
