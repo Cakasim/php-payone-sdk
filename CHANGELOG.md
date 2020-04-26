@@ -19,6 +19,10 @@ NEXT
    `notification.sender_address_whitelist`, `redirect.token_lifetime`,
    `redirect.token_encryption_method` and `redirect.token_signing_algo`
    [[#22](https://github.com/Cakasim/php-payone-sdk/issues/22)]
+ - **[BREAKING]** Moved PSR-7 HTTP message and PSR-17 HTTP factory components
+   into separate package which is now available as `cakasim/payone-sdk-http-message`
+ - **[BREAKING]** Moved PSR-18 HTTP client component into separate package
+   which is now available as `cakasim/payone-sdk-stream-client`
 
 0.1.0
 -----
