@@ -73,9 +73,9 @@ class Encoder implements EncoderInterface
         }
 
         // Encode iv, token and signature.
-        $iv = $this->base62Encode($iv);
-        $token = $this->base62Encode($token);
-        $signature = $this->base62Encode($signature);
+        $iv = $this->urlSafeEncode($iv);
+        $token = $this->urlSafeEncode($token);
+        $signature = $this->urlSafeEncode($signature);
 
         return "{$iv}.{$token}.{$signature}";
     }
@@ -103,7 +103,6 @@ class Encoder implements EncoderInterface
         } catch (\Exception $e) {
             throw new EncoderException("Failed token encoding, could not generate random initialization vector.");
         }
-
 
         if (!is_string($iv)) {
             throw new EncoderException("Failed token encoding, could not make the initialization vector.");
@@ -134,20 +133,15 @@ class Encoder implements EncoderInterface
     }
 
     /**
-     * Encodes the provided data with base62.
+     * Encodes the provided data URL-safe.
      *
      * @param string $data The data to encode.
-     * @return string The base62 encoded data
-     * @throws EncoderExceptionInterface If encoding fails.
+     * @return string The encoded data
      */
-    protected function base62Encode(string $data): string
+    protected function urlSafeEncode(string $data): string
     {
-        $data = gmp_import($data);
-
-        if (!($data instanceof \GMP)) {
-            throw new EncoderException("Failed token encoding, the token could not be base62 encoded.");
-        }
-
-        return gmp_strval($data, 62);
+        $data = base64_encode($data);
+        $data = strtr($data, '+/', '-_');
+        return rtrim($data, '=');
     }
 }
