@@ -64,9 +64,6 @@ class ContainerBuilder
 
         // --- PSR Bindings ---
 
-        // PSR-3
-        \Psr\Log\LoggerInterface::class => [\Cakasim\Payone\Sdk\Log\SilentLogger::class, true],
-
         // PSR-7
         // Concrete PSR-7 implementation is provided by PSR-17
         // factory bindings below.
@@ -113,6 +110,9 @@ class ContainerBuilder
 
         // PSR-18 bindings, from cakasim/payone-sdk-stream-client package
         \Psr\Http\Client\ClientInterface::class => ['Cakasim\Payone\Sdk\Http\StreamClient\StreamClient', true],
+
+        // PSR-3 bindings, from cakasim/payone-sdk-silent-logger package
+        \Psr\Log\LoggerInterface::class => ['Cakasim\Payone\Sdk\Log\SilentLogger\SilentLogger', true],
     ];
 
     /**
