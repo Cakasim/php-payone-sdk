@@ -7,7 +7,6 @@ namespace Cakasim\Payone\Sdk;
 use Cakasim\Payone\Sdk\Api\Service as ApiService;
 use Cakasim\Payone\Sdk\Container\ContainerException;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
-use Cakasim\Payone\Sdk\Log\Service as LogService;
 use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
 use Cakasim\Payone\Sdk\Redirect\Service as RedirectService;
 use Psr\Container\ContainerExceptionInterface;
@@ -48,17 +47,6 @@ class Sdk
     public function getContainer(): ContainerInterface
     {
         return $this->container;
-    }
-
-    /**
-     * Returns the log service.
-     *
-     * @return LogService The log service.
-     * @throws ContainerExceptionInterface If the log service cannot be resolved.
-     */
-    public function getLogService(): LogService
-    {
-        return $this->container->get(LogService::class);
     }
 
     /**

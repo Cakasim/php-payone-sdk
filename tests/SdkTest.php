@@ -8,7 +8,6 @@ use Cakasim\Payone\Sdk\Api\Service as ApiService;
 use Cakasim\Payone\Sdk\Container\Container;
 use Cakasim\Payone\Sdk\Container\ContainerException;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
-use Cakasim\Payone\Sdk\Log\Service as LogService;
 use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
 use Cakasim\Payone\Sdk\Sdk;
 use PHPUnit\Framework\TestCase;
@@ -32,21 +31,6 @@ class SdkTest extends TestCase
         // SDK with default container
         $sdk = new Sdk();
         $this->assertInstanceOf(Container::class, $sdk->getContainer());
-    }
-
-    /**
-     * @testdox Get log service from SDK
-     */
-    public function testGetLogService(): void
-    {
-        $sdk = new Sdk();
-        $this->assertInstanceOf(LogService::class, $sdk->getLogService());
-
-        // Get log service from empty container throws an exception
-        $container = new Container();
-        $sdk = new Sdk($container);
-        $this->expectException(ContainerException::class);
-        $sdk->getLogService();
     }
 
     /**

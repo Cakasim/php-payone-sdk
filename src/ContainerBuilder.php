@@ -26,7 +26,6 @@ class ContainerBuilder
         \Psr\Http\Message\ResponseFactoryInterface::class,
         \Psr\Http\Message\ServerRequestFactoryInterface::class,
         \Psr\Http\Client\ClientInterface::class,
-        \Cakasim\Payone\Sdk\Log\Service::class,
         \Cakasim\Payone\Sdk\Http\Service::class,
         \Cakasim\Payone\Sdk\Api\Service::class,
         \Cakasim\Payone\Sdk\Notification\Service::class,
@@ -50,7 +49,6 @@ class ContainerBuilder
      * The SDK service bindings.
      */
     protected const SERVICE_BINDINGS = [
-        \Cakasim\Payone\Sdk\Log\Service::class,
         \Cakasim\Payone\Sdk\Http\Service::class,
         \Cakasim\Payone\Sdk\Api\Service::class,
         \Cakasim\Payone\Sdk\Notification\Service::class,
