@@ -23,6 +23,11 @@ NEXT
    into separate package which is now available as `cakasim/payone-sdk-http-message`
  - **[BREAKING]** Moved PSR-18 HTTP client component into separate package
    which is now available as `cakasim/payone-sdk-stream-client`
+ - **[BREAKING]** Moved PSR-3 logging component into separate package
+   which is now available as `cakasim/payone-sdk-silent-logger`
+ - **[BREAKING]** Removed log component and service
+ - Use URL-safe Base64 encoding instead of Base62 for redirect tokens which
+   fixes a strange IV length problem and drops the `ext-gmp` requirement
 
 0.1.0
 -----
