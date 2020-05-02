@@ -9,6 +9,7 @@ use Cakasim\Payone\Sdk\Container\Container;
 use Cakasim\Payone\Sdk\ContainerBuilder;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
 use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
+use Cakasim\Payone\Sdk\Redirect\Service as RedirectService;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,5 +38,6 @@ class ContainerBuilderTest extends TestCase
         $this->assertTrue($container->has(HttpService::class));
         $this->assertTrue($container->has(ApiService::class));
         $this->assertTrue($container->has(NotificationService::class));
+        $this->assertTrue($container->has(RedirectService::class));
     }
 }
