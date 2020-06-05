@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk;
 
 use Cakasim\Payone\Sdk\Api\Service as ApiService;
+use Cakasim\Payone\Sdk\Config\ConfigInterface;
 use Cakasim\Payone\Sdk\Container\ContainerException;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
 use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
@@ -47,6 +48,17 @@ class Sdk
     public function getContainer(): ContainerInterface
     {
         return $this->container;
+    }
+
+    /**
+     * Returns the SDK config.
+     *
+     * @return ConfigInterface The SDK config.
+     * @throws ContainerException If the SDK config cannot be resolved.
+     */
+    public function getConfig(): ConfigInterface
+    {
+        return $this->container->get(ConfigInterface::class);
     }
 
     /**

@@ -28,6 +28,8 @@ NEXT
  - **[BREAKING]** Removed log component and service
  - Use URL-safe Base64 encoding instead of Base62 for redirect tokens which
    fixes a strange IV length problem and drops the `ext-gmp` requirement
+ - The `Cakasim\Payone\Sdk\Sdk` class now has a `getConfig()` method
+   for accessing the config in a convenient way
 
 0.1.0
 -----
