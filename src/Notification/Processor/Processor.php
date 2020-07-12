@@ -12,6 +12,7 @@ use Cakasim\Payone\Sdk\Notification\Message\MessageInterface;
 use Cakasim\Payone\Sdk\Notification\Message\TransactionStatus;
 use Cakasim\Payone\Sdk\Notification\Message\TransactionStatusInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * The implementation of the ProcessorInterface.
@@ -27,6 +28,11 @@ class Processor implements ProcessorInterface
     protected $config;
 
     /**
+     * @var LoggerInterface The SDK logger.
+     */
+    protected $logger;
+
+    /**
      * @var HandlerManagerInterface The notification handler manager.
      */
     protected $handlerManager;
@@ -35,13 +41,16 @@ class Processor implements ProcessorInterface
      * Constructs the processor.
      *
      * @param ConfigInterface $config The SDK config.
+     * @param LoggerInterface $logger The SDK logger.
      * @param HandlerManagerInterface $handlerManager The notification handler manager.
      */
     public function __construct(
         ConfigInterface $config,
+        LoggerInterface $logger,
         HandlerManagerInterface $handlerManager
     ) {
         $this->config = $config;
+        $this->logger = $logger;
         $this->handlerManager = $handlerManager;
     }
 
@@ -50,6 +59,8 @@ class Processor implements ProcessorInterface
      */
     public function processRequest(ServerRequestInterface $request): void
     {
+        $this->logger->info('Process incoming request as PAYONE notification message.');
+
         // Validate and get the sender address from the request.
         $senderAddress = $this->validateSenderAddress($request);
 
@@ -116,6 +127,12 @@ class Processor implements ProcessorInterface
             throw new ProcessorException("Failed notification processing, cannot get sender address whitelist from config.", 0, $e);
         }
 
+        $this->logger->debug(sprintf(
+            "Verify PAYONE notification message sender address '%s' is in whitelist: %s.",
+            long2ip($senderAddress),
+            join(', ', $whitelist)
+        ));
+
         foreach ($whitelist as $range) {
             // Add /32 mask if range is single IP.
             if (strpos($range, '/') === false) {
@@ -129,6 +146,12 @@ class Processor implements ProcessorInterface
             $ip = ip2long($ip);
 
             if (($senderAddress & $mask) === ($ip & $mask)) {
+                $this->logger->debug(sprintf(
+                    "PAYONE notification message sender address '%s' matches whitelist entry '%s'.",
+                    long2ip($senderAddress),
+                    $range
+                ));
+
                 return;
             }
         }
@@ -174,6 +197,8 @@ class Processor implements ProcessorInterface
 
         // Make MD5 hash from configured API key.
         $validKey = md5($validKey);
+
+        $this->logger->debug("Verify configured API key matches notification API key.");
 
         if ($validKey !== $key) {
             throw new ProcessorException("Failed notification processing, wrong API key.");
