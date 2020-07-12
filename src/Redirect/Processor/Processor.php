@@ -11,6 +11,7 @@ use Cakasim\Payone\Sdk\Redirect\Handler\HandlerManagerInterface;
 use Cakasim\Payone\Sdk\Redirect\Token\Format\DecoderExceptionInterface;
 use Cakasim\Payone\Sdk\Redirect\Token\Format\DecoderInterface;
 use Cakasim\Payone\Sdk\Redirect\Token\TokenInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @author Fabian Böttcher <me@cakasim.de>
@@ -18,6 +19,11 @@ use Cakasim\Payone\Sdk\Redirect\Token\TokenInterface;
  */
 class Processor implements ProcessorInterface
 {
+    /**
+     * @var LoggerInterface The SDK logger.
+     */
+    protected $logger;
+
     /**
      * @var ConfigInterface The SDK config.
      */
@@ -36,15 +42,18 @@ class Processor implements ProcessorInterface
     /**
      * Constructs the redirect processor.
      *
+     * @param LoggerInterface $logger The SDK logger.
      * @param ConfigInterface $config The SDK config.
      * @param DecoderInterface $decoder The redirect token decoder.
      * @param HandlerManagerInterface $handlerManager The redirect handler manager.
      */
     public function __construct(
+        LoggerInterface $logger,
         ConfigInterface $config,
         DecoderInterface $decoder,
         HandlerManagerInterface $handlerManager
     ) {
+        $this->logger = $logger;
         $this->config = $config;
         $this->decoder = $decoder;
         $this->handlerManager = $handlerManager;
@@ -56,6 +65,7 @@ class Processor implements ProcessorInterface
     public function processRedirect(string $token): void
     {
         try {
+            $this->logger->debug(sprintf("Decode PAYONE redirect token '%s'.", $token));
             $token = $this->decoder->decode($token);
         } catch (DecoderExceptionInterface $e) {
             throw new ProcessorException("Failed redirect processing, could not decode the token.", 0, $e);

@@ -16,6 +16,7 @@ use Cakasim\Payone\Sdk\Redirect\Processor\ProcessorInterface;
 use Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGeneratorExceptionInterface;
 use Cakasim\Payone\Sdk\Redirect\UrlGenerator\UrlGeneratorInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * The redirect service.
@@ -25,6 +26,11 @@ use Psr\Container\ContainerInterface;
  */
 class Service extends AbstractService
 {
+    /**
+     * @var LoggerInterface The SDK logger.
+     */
+    protected $logger;
+
     /**
      * @var UrlGeneratorInterface The redirect URL generator.
      */
@@ -50,11 +56,13 @@ class Service extends AbstractService
      */
     public function __construct(
         ContainerInterface $container,
+        LoggerInterface $logger,
         UrlGeneratorInterface $urlGenerator,
         ProcessorInterface $processor,
         HandlerManagerInterface $handlerManager
     ) {
         parent::__construct($container);
+        $this->logger = $logger;
         $this->urlGenerator = $urlGenerator;
         $this->processor = $processor;
         $this->handlerManager = $handlerManager;
@@ -94,6 +102,7 @@ class Service extends AbstractService
             ]));
         }
 
+        $this->logger->debug("Apply redirect parameters for PAYONE request.", $parameters);
         $request->applyParameters($parameters);
     }
 
