@@ -81,7 +81,7 @@ class UrlGenerator implements UrlGeneratorInterface
         try {
             $token = $this->encoder->encode($token);
         } catch (EncoderExceptionInterface $e) {
-            throw new UrlGeneratorException("Failed ti generate the redirect URL, could not encode the token.", 0, $e);
+            throw new UrlGeneratorException("Failed to generate the redirect URL, could not encode the token.", 0, $e);
         }
 
         // Try to replace the token placeholder.
