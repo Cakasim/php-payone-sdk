@@ -256,3 +256,129 @@ $request = $requestFactory->createServerRequest($_SERVER['REQUEST_METHOD'], $_SE
 // Process the server request
 $sdk->getNotificationService()->processRequest($request);
 ```
+
+### The Redirect Service
+
+For certain payment methods the customer will be redirected to a third party service (PayPal, Sofortüberweisung, etc.)
+in order to authenticate and authorize the payment.
+
+The SDK can set the `successurl`, `errorurl` and `backurl` API request parameters for you to specify the
+target URL a customer will be redirected to after he finishes the third party service process. Furthermore, the SDK
+appends a token to the target URL.
+
+The token holds metadata (e.g. creation timestamp) as well as custom data you may set. The token itself will be
+encrypted and signed which ensures protection of the payload data against unauthorized access and modification.
+Additionally, the SDK verifies the age of the token and ensures it does not exceed the configured max age.
+
+#### Apply Redirect Parameters to an API Request
+
+The example below shows how to apply redirect parameters to a (pre-)authorization API request. The API response
+has a status of `REDIRECT` and a `redirecturl` parameter which must be used to redirect the customer.
+In some scenarios a redirect is not always necessary, the example covers this as well.
+
+```php
+use Cakasim\Payone\Sdk\Api\Message\Parameter\BackUrlAwareInterface;
+use Cakasim\Payone\Sdk\Api\Message\Parameter\ErrorUrlAwareInterface;
+use Cakasim\Payone\Sdk\Api\Message\Parameter\SuccessUrlAwareInterface;
+use Cakasim\Payone\Sdk\Api\Message\Payment\AuthorizationRequest;
+
+// Use an inline class to customize the API request.
+// The inline class is tagged with the interfaces to support redirect URL parameters.
+// This is how the SDK knows which redirect URL parameters are supported and should
+// be added to the request by passing it to applyRedirectParameters() later on.
+$request = new class() extends AuthorizationRequest
+    implements SuccessUrlAwareInterface, ErrorUrlAwareInterface, BackUrlAwareInterface {
+
+    public function __construct()
+    {
+        parent::__construct([
+            // Perform an authorization of a credit card payment,
+            // this means the card will be charged immediately.
+            'request'      => 'authorization',
+            'clearingtype' => 'cc',
+
+            // This identifies the credit card of your customer and is valid within your account scope only.
+            // You will obtain this value during a credit card check which should be done in the context
+            // of the PAYONE Client API (e.g. in the browser of the customer). This is good for you because
+            // you are not getting in touch with the actual credit card data of your customer.
+            // https://docs.payone.com/pages/releaseview.action?pageId=1214583
+            'pseudocardpan' => '...',
+        ]);
+
+        // Set other mandatory parameters
+        $this->setCurrency('EUR');
+        $this->setAmount(1499);
+        $this->setReference('9Z8Y7X6W5V');
+    }
+};
+
+// Use an inline class to customize the API response
+$response = new class() extends \Cakasim\Payone\Sdk\Api\Message\Response {
+    public function getRedirectUrl(): ?string
+    {
+        // Return a valid redirect URL or null
+        return $this->getStatus() === 'REDIRECT'
+            ? $this->getParameter('redirecturl')
+            : null;
+    }
+};
+
+// Add redirect parameters to the request
+$sdk->getRedirectService()->applyRedirectParameters($request, [
+    // Provide any custom payload data and encode it securely within the token value
+    'order_id' => '9Z8Y7X6W5V',
+    // ...
+]);
+
+// Send API request to PAYONE
+$sdk->getApiService()->sendRequest($request, $response);
+
+// Get the redirect URL. The value can be null which (in this particular case)
+// indicates that no redirect is necessary because not every credit card payment
+// authorization requires a redirect.
+$redirectUrl = $response->getRedirectUrl();
+
+// Check if we have to redirect the customer
+if ($redirectUrl !== null) {
+    // At this point the customer must be redirected to $redirectUrl.
+    // Basically send a status code of 302 and a Location header with the
+    // value of $redirectUrl.
+    http_response_code(302);
+    header("Location: {$redirectUrl}");
+    exit;
+}
+
+// At this point no redirect was done, just process the payment
+// ...
+```
+
+#### Process a Redirect Token
+
+If a customer returns to your app you first need to read the redirect token. The SDK does not make any assumptions
+how this should be done. Basically using a simple query parameter is a sane and totally valid approach.
+
+Have a look at the example below which shows you how to process the token and access the token payload data.
+
+```php
+use Cakasim\Payone\Sdk\Redirect\Context\ContextInterface;
+use Cakasim\Payone\Sdk\Redirect\Handler\HandlerInterface;
+
+// Get the token from the request URL
+$token = '...';
+
+$handler = new class() implements HandlerInterface {
+    public function handleRedirect(ContextInterface $context): void
+    {
+        // Get the decoded token from the redirect context
+        $token = $context->getToken();
+
+        // Read your custom token payload data
+        $orderId = $token->get('order_id');
+
+        // Proceed with your business logic ...
+    }
+};
+
+$sdk->getRedirectService()->registerHandler($handler);
+$sdk->getRedirectService()->processRedirect($token);
+```
