@@ -228,7 +228,7 @@ $sdk->getApiService()->sendRequest($request, $response);
 echo serialize($response);
 ```
 
-### Handling Notifications from PAYONE
+### Handling Notifications From PAYONE
 
 With the SDK, PAYONE notifications can be easily processed.
 The SDK takes important steps in the verification and
