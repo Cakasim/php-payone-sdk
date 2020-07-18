@@ -1,8 +1,12 @@
 Changelog
 =========
 
-NEXT
+0.2.0
 ----
+**_Development Release / 2020-07-18_**
+
+_Please use this release with caution. Versions prior to 1.0.0
+are considered development releases._
 
 ### Changes
 

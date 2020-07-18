@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Base class for test cases.
  *
  * @author Fabian Böttcher <me@cakasim.de>
- * @since NEXT
+ * @since 0.2.0
  */
 abstract class AbstractTestCase extends TestCase
 {

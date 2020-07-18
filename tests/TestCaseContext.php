@@ -16,7 +16,7 @@ use Psr\Container\ContainerInterface;
  * services and their components via convenient getters.
  *
  * @author Fabian Böttcher <me@cakasim.de>
- * @since NEXT
+ * @since 0.2.0
  */
 class TestCaseContext
 {
