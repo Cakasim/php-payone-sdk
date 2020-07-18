@@ -1,10 +1,10 @@
 SDK for PAYONE Payment Integration
 ==================================
 
-[![CI Status](https://github.com/Cakasim/php-payone-sdk/workflows/CI/badge.svg?branch=develop)](https://github.com/Cakasim/php-payone-sdk/actions)
-[![Build Status](https://travis-ci.org/Cakasim/php-payone-sdk.svg?branch=develop)](https://travis-ci.org/Cakasim/php-payone-sdk)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cakasim/php-payone-sdk/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Cakasim/php-payone-sdk/?branch=develop)
-[![Coverage Status](https://coveralls.io/repos/github/Cakasim/php-payone-sdk/badge.svg?branch=develop)](https://coveralls.io/github/Cakasim/php-payone-sdk?branch=develop)
+[![CI Status](https://github.com/Cakasim/php-payone-sdk/workflows/CI/badge.svg?branch=master)](https://github.com/Cakasim/php-payone-sdk/actions)
+[![Build Status](https://travis-ci.org/Cakasim/php-payone-sdk.svg?branch=master)](https://travis-ci.org/Cakasim/php-payone-sdk)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cakasim/php-payone-sdk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cakasim/php-payone-sdk/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Cakasim/php-payone-sdk/badge.svg?branch=master)](https://coveralls.io/github/Cakasim/php-payone-sdk?branch=master)
 [![LICENSE](https://img.shields.io/github/license/Cakasim/php-payone-sdk.svg)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/cakasim/payone-sdk/downloads)](https://packagist.org/packages/cakasim/payone-sdk)
 
@@ -39,7 +39,7 @@ The SDK for PAYONE Payment Integration is open-sourced software licensed under t
 Installing the SDK
 ------------------
 
-Just run `composer require cakasim/payone-sdk:dev-develop` to install the SDK via composer.
+Just run `composer require cakasim/payone-sdk` to install the SDK via composer.
 
 Core Concepts
 -------------
