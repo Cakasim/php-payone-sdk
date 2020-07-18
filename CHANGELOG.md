@@ -29,7 +29,10 @@ NEXT
  - Use URL-safe Base64 encoding instead of Base62 for redirect tokens which
    fixes a strange IV length problem and drops the `ext-gmp` requirement
  - The `Cakasim\Payone\Sdk\Sdk` class now has a `getConfig()` method
-   for accessing the config in a convenient way
+   for accessing the config more conveniently
+ - Implemented logging for the redirect and notification services
+   [[#14](https://github.com/Cakasim/php-payone-sdk/issues/14)]
+ - Updated README in general and added a new section about the redirect service
 
 0.1.0
 -----
