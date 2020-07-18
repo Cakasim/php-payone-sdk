@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 class Sdk
 {
     public const API_SOLUTION_NAME = 'Cakasim/PAYONE-PHP-SDK';
-    public const API_SOLUTION_VERSION = '0.1.0';
+    public const API_SOLUTION_VERSION = '0.2.0';
 
     /**
      * @var ContainerInterface The SDK service container.
