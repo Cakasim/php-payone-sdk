@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Cakasim\Payone\Sdk;
 
 use Cakasim\Payone\Sdk\Api\Service as ApiService;
+use Cakasim\Payone\Sdk\Config\ConfigInterface;
 use Cakasim\Payone\Sdk\Container\ContainerException;
 use Cakasim\Payone\Sdk\Http\Service as HttpService;
-use Cakasim\Payone\Sdk\Log\Service as LogService;
 use Cakasim\Payone\Sdk\Notification\Service as NotificationService;
 use Cakasim\Payone\Sdk\Redirect\Service as RedirectService;
 use Psr\Container\ContainerExceptionInterface;
@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 class Sdk
 {
     public const API_SOLUTION_NAME = 'Cakasim/PAYONE-PHP-SDK';
-    public const API_SOLUTION_VERSION = '0.1.0';
+    public const API_SOLUTION_VERSION = '0.2.0';
 
     /**
      * @var ContainerInterface The SDK service container.
@@ -51,14 +51,14 @@ class Sdk
     }
 
     /**
-     * Returns the log service.
+     * Returns the SDK config.
      *
-     * @return LogService The log service.
-     * @throws ContainerExceptionInterface If the log service cannot be resolved.
+     * @return ConfigInterface The SDK config.
+     * @throws ContainerException If the SDK config cannot be resolved.
      */
-    public function getLogService(): LogService
+    public function getConfig(): ConfigInterface
     {
-        return $this->container->get(LogService::class);
+        return $this->container->get(ConfigInterface::class);
     }
 
     /**

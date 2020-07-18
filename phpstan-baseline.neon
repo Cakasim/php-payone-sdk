@@ -31,37 +31,12 @@ parameters:
 			path: src\Container\Container.php
 
 		-
-			message: "#^Array \\(array\\<array\\<string\\>\\>\\) does not accept array\\<int, array\\|int\\|string\\>\\.$#"
-			count: 1
-			path: src\Http\Message\AbstractMessage.php
-
-		-
-			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Http\\\\Message\\\\AbstractMessage\\:\\:getHeaders\\(\\) should return array\\<array\\<string\\>\\> but returns array\\<string, string\\>\\.$#"
-			count: 1
-			path: src\Http\Message\AbstractMessage.php
-
-		-
-			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Http\\\\Message\\\\AbstractMessage\\:\\:getHeader\\(\\) should return array\\<string\\> but returns array\\|string\\.$#"
-			count: 1
-			path: src\Http\Message\AbstractMessage.php
-
-		-
-			message: "#^Array \\(array\\<array\\<string\\>\\>\\) does not accept array\\<int, array\\<string\\>\\|string\\>\\.$#"
-			count: 1
-			path: src\Http\Message\AbstractMessage.php
-
-		-
-			message: "#^Cannot assign offset string to array\\<int\\|string, int\\>\\|false\\.$#"
-			count: 1
-			path: src\Http\Message\Stream.php
-
-		-
 			message: "#^Method Cakasim\\\\Payone\\\\Sdk\\\\Notification\\\\Message\\\\AbstractMessage\\:\\:unserialize\\(\\) has parameter \\$serialized with no typehint specified\\.$#"
 			count: 1
 			path: src\Notification\Message\AbstractMessage.php
 
 		-
 			message: "#^PHPDoc tag @throws with type Psr\\\\Container\\\\ContainerExceptionInterface is not subtype of Throwable$#"
-			count: 5
+			count: 4
 			path: src\Sdk.php
 

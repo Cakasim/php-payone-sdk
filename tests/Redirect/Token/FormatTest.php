@@ -126,7 +126,7 @@ class FormatTest extends TestCase
         $token = $this->tokenFactory->createToken($data);
 
         $encodedToken = $this->encoder->encode($token);
-        $this->assertRegExp('/[a-z0-9]+\.[a-z0-9]+\.[a-z0-9]+/i', $encodedToken);
+        $this->assertRegExp('/[a-z0-9\-_]+\.[a-z0-9\-_]+\.[a-z0-9\-_]+/i', $encodedToken);
 
         $decodedToken = $this->decoder->decode($encodedToken);
         $this->assertEquals($token->jsonSerialize(), $decodedToken->jsonSerialize());

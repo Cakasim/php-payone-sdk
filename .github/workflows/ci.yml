@@ -38,7 +38,11 @@ jobs:
           vendor/bin/phpunit --version
 
       - name: Composer Install
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs
+          composer require --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs cakasim/payone-sdk-http-message:^0.1
+          composer require --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs cakasim/payone-sdk-stream-client:^0.1
+          composer require --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs cakasim/payone-sdk-silent-logger:^0.1
 
       - name: Run Coding Style Checks
         run: vendor/bin/phpcsf -v fix --dry-run --allow-risky=yes

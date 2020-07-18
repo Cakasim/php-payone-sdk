@@ -53,10 +53,10 @@ class Decoder implements DecoderInterface
         $signature = $token[2];
         $token = $token[1];
 
-        // base64 decode the token parts.
-        $iv = $this->base62Decode($iv);
-        $signature = $this->base62Decode($signature);
-        $token = $this->base62Decode($token);
+        // Decode the URL safe encoded token parts.
+        $iv = $this->urlSafeDecode($iv);
+        $signature = $this->urlSafeDecode($signature);
+        $token = $this->urlSafeDecode($token);
 
         try {
             // Create the expected (valid) signature of the token payload data.
@@ -95,24 +95,19 @@ class Decoder implements DecoderInterface
     }
 
     /**
-     * Decodes the provided base64 encoded data.
+     * Decodes the provided URL-safe encoded data.
      *
-     * @param string $data The base64 encoded data to decode.
+     * @param string $data The encoded data to decode.
      * @return string The decoded data.
      * @throws DecoderExceptionInterface If decoding fails.
      */
-    protected function base62Decode(string $data): string
+    protected function urlSafeDecode(string $data): string
     {
-        $data = gmp_init($data, 62);
+        $data = strtr($data, '-_', '+/');
+        $data = base64_decode($data, true);
 
-        if (!($data instanceof \GMP)) {
-            throw new DecoderException("Failed token decoding, the token could not be base62 decoding.");
-        }
-
-        $data = gmp_export($data);
-
-        if (!is_string($data)) {
-            throw new DecoderException("Failed token decoding, the token could not be base62 decoding.");
+        if ($data === false) {
+            throw new DecoderException("Failed token decoding, the token could not be base64 decoding.");
         }
 
         return $data;
